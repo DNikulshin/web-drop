@@ -1,0 +1,19 @@
+{
+  "name": "web-drop",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "db:generate": "turbo run db:generate",
+    "db:migrate": "pnpm --filter @web-drop/db db:migrate",
+    "infra:up": "docker compose up -d",
+    "infra:down": "docker compose down"
+  },
+  "devDependencies": {
+    "turbo": "^2.12.0",
+    "typescript": "^5.7.3"
+  },
+  "packageManager": "pnpm@9.4.0"
+}

@@ -1,0 +1,9 @@
+{
+  "extends": "@web-drop/tsconfig/node.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": ".",
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

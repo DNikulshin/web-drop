@@ -1,0 +1,10 @@
+{
+  "name": "@web-drop/tsconfig",
+  "version": "1.0.0",
+  "private": true,
+  "exports": {
+    "./base.json": "./tsconfig/base.json",
+    "./node.json": "./tsconfig/node.json",
+    "./nextjs.json": "./tsconfig/nextjs.json"
+  }
+}

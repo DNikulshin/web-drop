@@ -1,0 +1,5 @@
+{
+  "extends": "@web-drop/tsconfig/node.json",
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}

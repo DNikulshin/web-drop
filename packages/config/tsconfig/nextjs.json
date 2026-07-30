@@ -1,0 +1,15 @@
+{
+  "$schema": "https://schemastore.org",
+  "display": "Next.js",
+  "extends": "@web-drop/tsconfig/base.json",
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "jsx": "preserve",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowJs": true,
+    "noEmit": true,
+    "incremental": true,
+    "plugins": [{ "name": "next" }]
+  }
+}

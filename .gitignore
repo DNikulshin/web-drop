@@ -1,0 +1,32 @@
+# === DATABASE ===
+DATABASE_URL="postgresql://webdrop:webdrop@localhost:5432/webdrop?schema=public"
+
+# === REDIS ===
+REDIS_URL="redis://localhost:6379"
+
+# === MINIO (S3-compatible) ===
+S3_ENDPOINT="http://localhost:9000"
+S3_REGION="us-east-1"
+S3_ACCESS_KEY="minioadmin"
+S3_SECRET_KEY="minioadmin"
+S3_BUCKET="webdrop"
+S3_PUBLIC_URL="http://localhost:9000/webdrop"
+
+# === APP ===
+NODE_ENV="development"
+PORT=3001
+FRONTEND_URL="http://localhost:3000"
+INSTANCE_ID="instance-1"
+
+# === SECURITY ===
+JWT_SECRET="change-me-in-production"
+ENCRYPTION_SALT="change-me-in-production"
+
+# === TTL (в секундах) ===
+DEFAULT_FILE_TTL=3600
+DEFAULT_SESSION_TTL=86400
+MAX_FILE_SIZE_MB=2048
+
+#env
+.env
+node_modules

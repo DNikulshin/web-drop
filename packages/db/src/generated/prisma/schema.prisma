@@ -1,0 +1,60 @@
+datasource db {
+  provider = "postgresql"
+  // url = env("DATABASE_URL") <- ЭТОЙ СТРОКИ ТУТ БОЛЬШЕ НЕТ!
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+model Session {
+  id        String    @id @default(cuid())
+  code      String    @unique
+  createdAt DateTime  @default(now())
+  expiresAt DateTime
+  devices   Device[]
+  messages  Message[]
+  files     File[]
+
+  @@index([expiresAt])
+}
+
+model Device {
+  id          String   @id @default(cuid())
+  sessionId   String
+  session     Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  userAgent   String
+  connectedAt DateTime @default(now())
+
+  @@index([sessionId])
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  sessionId String
+  session   Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  type      String // 'text' | 'file'
+  content   String // Зашифрованный текст или метаданные файла
+  createdAt DateTime @default(now())
+
+  @@index([sessionId, createdAt])
+}
+
+model File {
+  id            String   @id @default(cuid())
+  sessionId     String
+  session       Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  s3Key         String
+  originalName  String
+  size          Int
+  mimeType      String
+  encrypted     Boolean  @default(true)
+  downloadCount Int      @default(0)
+  maxDownloads  Int?
+  expiresAt     DateTime
+  createdAt     DateTime @default(now())
+
+  @@index([sessionId])
+  @@index([expiresAt])
+}
