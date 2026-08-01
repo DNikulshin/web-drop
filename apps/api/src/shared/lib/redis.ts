@@ -29,6 +29,18 @@ if (process.env.NODE_ENV !== "production") {
   globalForRedis.redisSubscriber = redisSubscriber;
 }
 
+export function getSessionStreamKey(code: string) {
+  return `session:${code}:stream`;
+}
+
+export function getSessionChannel(code: string) {
+  return `session:${code}:channel`;
+}
+
+export function getSessionGroupName(code: string) {
+  return `session:${code}:group`;
+}
+
 export async function ensureConsumerGroup(
   streamKey: string,
   groupName: string,
@@ -40,4 +52,49 @@ export async function ensureConsumerGroup(
       throw err;
     }
   }
+}
+
+export async function addSessionStreamEvent(
+  code: string,
+  event: Record<string, unknown>,
+) {
+  const streamKey = getSessionStreamKey(code);
+  await redis.xadd(streamKey, "*", "event", JSON.stringify(event));
+}
+
+export async function publishSessionEvent(
+  code: string,
+  event: Record<string, unknown>,
+) {
+  const channel = getSessionChannel(code);
+  await redis.publish(channel, JSON.stringify(event));
+}
+
+export async function subscribeSessionChannel(
+  code: string,
+  onMessage: (event: Record<string, unknown>) => void,
+) {
+  const channel = getSessionChannel(code);
+  await redisSubscriber.subscribe(channel);
+
+  const listener = (channelName: string, message: string) => {
+    if (channelName !== channel) return;
+    try {
+      const event = JSON.parse(message) as Record<string, unknown>;
+      onMessage(event);
+    } catch {
+      // ignore malformed messages
+    }
+  };
+
+  redisSubscriber.on("message", listener);
+
+  return async () => {
+    redisSubscriber.off("message", listener);
+    await redisSubscriber.unsubscribe(channel);
+  };
+}
+
+export function redisIsConnected() {
+  return redis.status === "ready" && redisSubscriber.status === "ready";
 }

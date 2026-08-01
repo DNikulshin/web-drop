@@ -1,9 +1,9 @@
 import Fastify from "fastify";
 import fastifyWebsocket from "@fastify/websocket";
 import fastifyCors from "@fastify/cors";
-import { sessionRoutes } from "./modules/session/session.routes";
-import { healthRoutes } from "./modules/health/health.routes";
-import { redis, redisSubscriber } from "./shared/lib/redis";
+import { sessionRoutes } from "./modules/session/session.routes.js";
+import { healthRoutes } from "./modules/health/health.routes.js";
+import { redis, redisSubscriber } from "./shared/lib/redis.js";
 
 const server = Fastify({
   logger: {

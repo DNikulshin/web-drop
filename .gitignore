@@ -30,6 +30,6 @@ MAX_FILE_SIZE_MB=2048
 #env
 .env*
 node_modules
-.turbo/
-dist/
+**/.turbo/
+**/dist/
 *.log

@@ -2,8 +2,11 @@ import path from "node:path";
 import dotenv from "dotenv";
 import { defineConfig, env } from "prisma/config";
 
-// Явно загружаем .env из корня монорепозитория (на 2 уровня выше)
-dotenv.config({ path: path.resolve(__dirname, "../../.env") });
+const rootEnvPath = path.resolve(__dirname, "../../.env");
+const exampleEnvPath = path.resolve(__dirname, "../../.env.example");
+
+dotenv.config({ path: exampleEnvPath });
+dotenv.config({ path: rootEnvPath });
 
 export default defineConfig({
   schema: "prisma/schema.prisma",

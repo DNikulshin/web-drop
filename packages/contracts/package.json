@@ -1,5 +1,5 @@
 {
-  "name": "@web-drop/db",
+  "name": "@web-drop/contracts",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -12,19 +12,14 @@
     }
   },
   "scripts": {
-    "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",
-    "build": "pnpm exec tsc -p tsconfig.json && cp -R src/generated dist/generated"
+    "build": "pnpm exec tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@prisma/client": "^7.9.1",
-    "@prisma/adapter-pg": "^7.9.1",
-    "@web-drop/tsconfig": "workspace:*"
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^26.1.2",
-    "dotenv": "^17.4.2",
-    "prisma": "^7.9.1",
+    "@web-drop/tsconfig": "workspace:*",
     "typescript": "^7.0.2"
   }
 }
