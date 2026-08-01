@@ -13,7 +13,7 @@ const globalForRedis = globalThis as unknown as {
   redisSubscriber: Redis;
 };
 
-export const redis =
+export let redis: Redis =
   globalForRedis.redis ||
   new Redis(REDIS_URL, {
     maxRetriesPerRequest: null,
@@ -21,7 +21,7 @@ export const redis =
     retryStrategy: (times) => Math.min(times * 100, 3000),
   });
 
-export const redisSubscriber =
+export let redisSubscriber: Redis =
   globalForRedis.redisSubscriber ||
   new Redis(REDIS_URL, {
     maxRetriesPerRequest: null,
@@ -35,6 +35,36 @@ export const INSTANCE_ID =
 if (process.env.NODE_ENV !== "production") {
   globalForRedis.redis = redis;
   globalForRedis.redisSubscriber = redisSubscriber;
+}
+
+export async function recreateRedisClients() {
+  try {
+    await redis.disconnect();
+  } catch (_) {
+    // ignore
+  }
+
+  try {
+    await redisSubscriber.disconnect();
+  } catch (_) {
+    // ignore
+  }
+
+  redis = new Redis(REDIS_URL, {
+    maxRetriesPerRequest: null,
+    lazyConnect: true,
+    retryStrategy: (times) => Math.min(times * 100, 3000),
+  });
+
+  redisSubscriber = new Redis(REDIS_URL, {
+    maxRetriesPerRequest: null,
+    lazyConnect: true,
+  });
+
+  if (process.env.NODE_ENV !== "production") {
+    globalForRedis.redis = redis;
+    globalForRedis.redisSubscriber = redisSubscriber;
+  }
 }
 
 let consecutiveRedisFailures = 0;
@@ -59,6 +89,10 @@ function recordRedisFailure() {
 async function withRedisOperation<T>(operation: () => Promise<T>) {
   if (isCircuitOpen()) {
     throw new Error("Redis circuit breaker is open");
+  }
+
+  if (redis.status !== "ready" && redis.status !== "connecting") {
+    await redis.connect();
   }
 
   try {

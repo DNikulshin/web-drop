@@ -4,7 +4,7 @@ import Fastify from "fastify";
 import fastifyWebsocket from "@fastify/websocket";
 import WebSocket from "ws";
 import { sessionRoutes } from "./session.routes.js";
-import { redis, redisSubscriber } from "../../shared/lib/redis.js";
+import { redis, redisSubscriber, recreateRedisClients } from "../../shared/lib/redis.js";
 
 const buildServer = async () => {
   if (redis.status !== "ready") {
@@ -21,7 +21,12 @@ const buildServer = async () => {
 };
 
 afterEach(async () => {
-  // keep Redis connections open between tests to avoid reconnect issues in Vitest
+  // Recreate Redis clients to ensure a fresh state between tests.
+  try {
+    await recreateRedisClients();
+  } catch (err) {
+    // ignore recreation errors in teardown
+  }
 });
 
 describe("Session routes", () => {
