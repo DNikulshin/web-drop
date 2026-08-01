@@ -2,11 +2,12 @@ import { FastifyInstance } from "fastify";
 import { nanoid } from "nanoid";
 import fs from "fs/promises";
 import path from "path";
+import { ensureUploadDir, saveFileLocal, saveFileS3, readFile, readMeta } from "../../shared/storage.js";
 
 const UPLOAD_DIR = path.join(process.cwd(), "apps/api/data/uploads");
 
 export async function filesRoutes(server: FastifyInstance) {
-  await fs.mkdir(UPLOAD_DIR, { recursive: true });
+  await ensureUploadDir();
 
   server.post(
     "/api/files",
@@ -35,22 +36,62 @@ export async function filesRoutes(server: FastifyInstance) {
         },
       },
     },
-    async (request, reply) => {
+      async (request, reply) => {
       const body = request.body as { filename: string; content: string; ttlSeconds?: number };
       const code = nanoid(8);
-      const filePath = path.join(UPLOAD_DIR, code);
-      const metaPath = path.join(UPLOAD_DIR, `${code}.meta.json`);
 
       try {
         const buffer = Buffer.from(body.content, "base64");
-        await fs.writeFile(filePath, buffer);
         const ttl = body.ttlSeconds ?? 60 * 60 * 24; // default 1 day
         const expiresAt = new Date(Date.now() + ttl * 1000).toISOString();
         const meta = { filename: body.filename, size: buffer.length, expiresAt };
-        await fs.writeFile(metaPath, JSON.stringify(meta));
+
+        if (process.env.USE_S3 === "1" || process.env.USE_S3 === "true") {
+          await saveFileS3(code, buffer, meta);
+        } else {
+          await saveFileLocal(code, buffer, meta);
+        }
 
         const url = `/files/${code}`;
         return reply.status(201).send({ code, url, expiresAt });
+      } catch (err) {
+        server.log.error(err);
+        return reply.status(500).send({ statusCode: 500, error: "Internal Server Error", message: "Unable to save file" });
+      }
+    },
+  );
+
+  // multipart upload route
+  server.post(
+    "/api/files/multipart",
+    { config: { multipart: true } },
+    async (request, reply) => {
+      const parts = request.parts();
+      const code = nanoid(8);
+      let filename = code;
+      let buffer = Buffer.alloc(0);
+      let ttl = 60 * 60 * 24;
+
+      for await (const part of parts) {
+        if (part.type === "file") {
+          filename = part.filename || filename;
+          const chunks: Buffer[] = [];
+          for await (const chunk of part.file) chunks.push(Buffer.from(chunk));
+          buffer = Buffer.concat(chunks);
+        } else if (part.type === "field") {
+          if (part.fieldname === "ttlSeconds") ttl = Number(part.value) || ttl;
+        }
+      }
+
+      try {
+        const expiresAt = new Date(Date.now() + ttl * 1000).toISOString();
+        const meta = { filename, size: buffer.length, expiresAt };
+        if (process.env.USE_S3 === "1" || process.env.USE_S3 === "true") {
+          await saveFileS3(code, buffer, meta);
+        } else {
+          await saveFileLocal(code, buffer, meta);
+        }
+        return reply.status(201).send({ code, url: `/files/${code}`, expiresAt });
       } catch (err) {
         server.log.error(err);
         return reply.status(500).send({ statusCode: 500, error: "Internal Server Error", message: "Unable to save file" });

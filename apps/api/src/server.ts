@@ -1,9 +1,11 @@
 import Fastify from "fastify";
 import fastifyWebsocket from "@fastify/websocket";
+import fastifyMultipart from "@fastify/multipart";
 import fastifyCors from "@fastify/cors";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import { sessionRoutes } from "./modules/session/session.routes.js";
+import { filesRoutes } from "./modules/files/files.routes.js";
 import { healthRoutes } from "./modules/health/health.routes.js";
 import { redis, redisSubscriber } from "./shared/lib/redis.js";
 
@@ -57,6 +59,25 @@ await server.register(fastifySwaggerUi, {
 await server.register(fastifyWebsocket);
 await server.register(healthRoutes, { prefix: "" });
 await server.register(sessionRoutes, { prefix: "" });
+await server.register(filesRoutes, { prefix: "" });
+
+// register multipart plugin
+await server.register(fastifyMultipart);
+
+// start background cleanup worker for expired uploads
+setInterval(async () => {
+  try {
+    const { listExpired } = await import("./shared/storage.js");
+    const expired = await listExpired();
+    for (const code of expired) {
+      const { deleteFile } = await import("./shared/storage.js");
+      await deleteFile(code);
+      server.log.info({ code }, "Deleted expired upload");
+    }
+  } catch (err) {
+    server.log.error(err, "Error running upload cleanup");
+  }
+}, 60 * 1000);
 
 const start = async () => {
   try {
