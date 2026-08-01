@@ -1,37 +1,58 @@
 # Web Drop
 
-Web Drop is a developer-focused project built as a monorepo with a typed Fastify API and a Next.js frontend.
-The main idea is to provide a clean, documented backend service for creating and checking lightweight sessions, with Swagger/OpenAPI docs available immediately for testing and integration.
+Web Drop — монорепозиторий для быстрой синхронизации текста и обмена файлами между устройствами без регистрации.
 
-## What it is
-- A Fastify v5 API under `apps/api`.
-- A Next.js 16 frontend under `apps/web`.
-- Full OpenAPI/Swagger documentation for API endpoints.
-- Type-safe route definitions and schema validation using Zod and Prisma.
+## Что реализовано
+- API на Fastify с маршрутами сессий и WebSocket-синхронизацией
+- Загрузка и скачивание файлов через base64 и multipart
+- Поддержка S3-совместимого хранилища с TTL/автоочисткой
+- Метрики и health-checks
+- Swagger/OpenAPI и набор тестов для API
 
-## Why it exists
-- To deliver a production-ready backend service with strong developer ergonomics.
-- To make API documentation usable from day one via `/docs`.
-- To support fast local development in Codespaces.
+## Архитектура
+- API: apps/api
+- Web: apps/web
+- Shared contracts: packages/contracts
+- Prisma client and DB layer: packages/db
 
-## Current status
-- `apps/api` has Swagger UI and JSON schema documentation.
-- Type-safe Swagger registration was implemented with custom type augmentation.
-- Basic health and session endpoints are documented and available.
-- A session context file (`SESSION_CONTEXT.md`) is included for smooth handover between development sessions.
+## Технологии
+- Fastify v5, @fastify/swagger, @fastify/swagger-ui
+- WebSocket для синхронизации сессий
+- Redis для metadata/session events
+- Prisma + PostgreSQL
+- Next.js 16 + React 19 для web-части
 
-## Tech stack
-- `pnpm` monorepo with Turborepo
-- `apps/api`: Fastify v5, `@fastify/swagger`, `@fastify/swagger-ui`, Zod, Prisma, Redis
-- `apps/web`: Next.js 16, React 19
+## Быстрый старт
+1. Установите зависимости:
+   ```bash
+   pnpm install
+   ```
+2. Запустите API:
+   ```bash
+   pnpm --filter @web-drop/api dev
+   ```
+3. Запустите web:
+   ```bash
+   pnpm --filter web dev
+   ```
+4. Откройте:
+   - API docs: http://localhost:3001/docs
+   - Web: http://localhost:3000
 
-## Getting started
-1. Install dependencies: `pnpm install`
-2. Start the API: `pnpm --filter @web-drop/api dev`
-3. Open Swagger UI on the API server at `/docs`
+## Полезные команды
+```bash
+pnpm build
+pnpm test
+pnpm lint
+```
 
-## Next session goals
-- Verify Swagger UI "Try it out" behavior
-- Expand OpenAPI schemas for more API routes
-- Add automated API smoke tests
-- Review `apps/web` integration with the documented API
+## Текущий статус
+- Сессии и WebSocket уже работают
+- Файлы можно загружать и скачивать
+- Подключена поддержка S3 и очистки по TTL
+- Добавлены unit/e2e тесты для API
+
+## Следующие шаги
+- Доработать UI в apps/web под новые API-фичи
+- Добавить более полный E2E для мультимедийных сценариев
+- Подкрутить CI/CD и production-конфиг

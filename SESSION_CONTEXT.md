@@ -1,69 +1,44 @@
 # Session Context
 
 ## Repository
-- Name: `web-drop`
-- Owner: `DNikulshin`
-- Current branch: `main`
-- Workspace root: `/workspaces/web-drop`
+- Name: web-drop
+- Owner: DNikulshin
+- Current branch: main
+- Workspace root: /workspaces/web-drop
 
-## Current Scope
-- `apps/api` is the primary active project.
-- Fastify v5 API with Swagger/OpenAPI documentation support.
-- `apps/web` is a Next.js application in the same monorepo.
-- Focus is on API documentation, typings, and stable route behavior before broader frontend integration.
+## Current scope
+- API is the main active workstream
+- Web app is a thin Next.js shell for future UI integration
+- Focus is on making the backend reliable, documented and covered by tests
 
-## Project Vision
-- Build a web drop service with a typed API and developer-friendly docs.
-- Expose session creation and status routes, plus health checks and future business endpoints.
-- Ensure documentation is immediately usable from Swagger UI and can be used in Codespaces.
-- Make the API production-ready with test coverage, schema validation, and deployment-safe configuration.
+## Current status
+- Sessions and WebSocket sync are implemented
+- File upload/download support exists for base64 and multipart payloads
+- Local and S3-backed storage paths are supported
+- TTL cleanup and metrics are wired in
+- Build and tests are passing for the API package
 
-## Sprint Summary
-- Completed a documentation-first API setup sprint.
-- Delivered Swagger UI, OpenAPI metadata, and type-safe plugin registration.
-- Fixed build issues caused by missing plugin type support.
-- Pushed a clean commit to `main` and left the repo in a deployable state for the next sprint.
+## Recent work completed
+- Added API routes for sessions and health checks
+- Added files routes with storage abstraction
+- Added S3 support and cleanup worker
+- Added QR endpoint and metrics exposure
+- Added unit and e2e tests for files and sessions
 
-## Recent Work Completed
-- Configured Swagger UI and OpenAPI spec on the API server.
-- Added type-safe Fastify Swagger registration by introducing type augmentation.
-- Removed an `any` cast from Swagger plugin registration.
-- Expanded session API with `/api/sessions/:code/history` and `/api/sessions/:code/text`.
-- Added backend tests for session routes and Redis helpers.
-- Implemented Redis session metadata and TTL refresh logic.
-- Added session existence checks and 404 handling for session endpoints.
-- Verified `pnpm --filter @web-drop/api exec tsc --noEmit` and `pnpm --filter @web-drop/api test` pass.
-- Committed and pushed the fix to `main`.
+## Key areas for next iteration
+- Finish the web UI integration for sessions and files
+- Add richer multipart and UI-driven E2E coverage
+- Harden CI/CD and deployment config
 
-## Key Files
-- `apps/api/src/server.ts`
-- `apps/api/src/types/fastify-swagger.d.ts`
-- `apps/api/src/modules/session/session.routes.ts`
-- `apps/api/src/modules/health/health.routes.ts`
+## Useful commands
+```bash
+pnpm install
+pnpm build
+pnpm test
+pnpm lint
+```
 
-## Working Rule
-- После успешной сборки и прохождения тестов делаем подробный коммит и пуш в `main`.
-- После каждого успешного цикла сборки и тестов фиксируем результат в session context и PLAN.
-- Ведём диалог только на русском языке — это жёсткое правило для всей сессии.
-
-## Notes for Next Session
-- Continue API documentation and endpoint coverage work.
-- Verify Swagger UI interactive "Try it out" behavior if needed.
-- Expand OpenAPI schemas for additional routes.
-- Ensure `apps/api` smoke tests or automated tests are added in future.
-
-## Useful Facts
-- Monorepo uses `pnpm` and Turborepo.
-- API documentation served at `/docs` and `/docs/json`.
-- Fastify Swagger options required manual type augmentation to avoid runtime typing issues.
-- Latest commit message: `Remove Swagger any cast by adding Fastify Swagger type augmentation`.
-
-## Checklist
-- [x] Configure Swagger UI and OpenAPI spec on the API server
-- [x] Add type-safe Fastify Swagger registration
-- [x] Remove `any` cast from Swagger plugin registration
-- [x] Commit and push fix to `main`
-- [ ] Verify Swagger UI "Try it out" behavior in a new session
-- [ ] Add or expand OpenAPI schemas for additional routes
-- [ ] Add API smoke tests or automated tests for `apps/api`
-- [ ] Review `apps/web` integration with API documentation if needed
+## Notes
+- API docs are available at /docs
+- Web app runs at http://localhost:3000
+- API runs at http://localhost:3001
