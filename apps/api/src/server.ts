@@ -30,7 +30,8 @@ await server.register(fastifyCors, {
   credentials: true,
 });
 
-await server.register(fastifySwagger as any, {
+await server.register(fastifySwagger, {
+  mode: "dynamic",
   routePrefix: "/documentation",
   openapi: {
     info: {
