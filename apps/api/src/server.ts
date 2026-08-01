@@ -1,6 +1,9 @@
 import Fastify from "fastify";
 import fastifyWebsocket from "@fastify/websocket";
 import fastifyMultipart from "@fastify/multipart";
+import { startCleanupWorker } from "./shared/cleanupWorker.js";
+import { getMetrics } from "./shared/metrics.js";
+import { qrRoutes } from "./modules/qr/qr.routes.js";
 import fastifyCors from "@fastify/cors";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
@@ -64,20 +67,41 @@ await server.register(filesRoutes, { prefix: "" });
 // register multipart plugin
 await server.register(fastifyMultipart);
 
-// start background cleanup worker for expired uploads
-setInterval(async () => {
+// register QR routes
+await server.register(qrRoutes, { prefix: '' });
+
+// metrics endpoint
+server.get('/metrics', async (request, reply) => {
   try {
-    const { listExpired } = await import("./shared/storage.js");
-    const expired = await listExpired();
-    for (const code of expired) {
-      const { deleteFile } = await import("./shared/storage.js");
-      await deleteFile(code);
-      server.log.info({ code }, "Deleted expired upload");
-    }
+    const body = await getMetrics();
+    reply.type('text/plain');
+    return reply.send(body);
   } catch (err) {
-    server.log.error(err, "Error running upload cleanup");
+    server.log.error(err);
+    return reply.status(500).send('');
   }
-}, 60 * 1000);
+});
+
+// start background cleanup worker for expired uploads with graceful shutdown
+const stopCleanup = startCleanupWorker(server, { batchSize: 20, intervalMs: 60 * 1000 });
+
+const handleShutdown = async () => {
+  server.log.info('Shutting down: stopping cleanup worker');
+  try {
+    await stopCleanup();
+  } catch (err) {
+    server.log.error(err, 'Error stopping cleanup worker');
+  }
+  try {
+    await server.close();
+  } catch (err) {
+    server.log.error(err, 'Error closing server');
+  }
+  process.exit(0);
+};
+
+process.on('SIGINT', handleShutdown);
+process.on('SIGTERM', handleShutdown);
 
 const start = async () => {
   try {

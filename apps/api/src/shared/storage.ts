@@ -35,13 +35,24 @@ export async function deleteFile(code: string) {
   const metaPath = path.join(UPLOAD_DIR, `${code}.meta.json`);
   try {
     if (USE_S3 && s3Client && S3_BUCKET) {
-      await s3Client.send(new DeleteObjectCommand({ Bucket: S3_BUCKET, Key: code }));
+      try {
+        await s3Client.send(new DeleteObjectCommand({ Bucket: S3_BUCKET, Key: code }));
+        await fs.unlink(metaPath).catch(() => {});
+        return { code, s3: true, success: true };
+      } catch (err: any) {
+        return { code, s3: true, success: false, error: String(err.message ?? err) };
+      }
     } else {
-      await fs.unlink(filePath).catch(() => {});
+      try {
+        await fs.unlink(filePath).catch(() => {});
+        await fs.unlink(metaPath).catch(() => {});
+        return { code, s3: false, success: true };
+      } catch (err: any) {
+        return { code, s3: false, success: false, error: String(err.message ?? err) };
+      }
     }
-    await fs.unlink(metaPath).catch(() => {});
-  } catch (err) {
-    // ignore
+  } catch (err: any) {
+    return { code, s3: USE_S3 === true, success: false, error: String(err.message ?? err) };
   }
 }
 
