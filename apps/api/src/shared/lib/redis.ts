@@ -1,5 +1,13 @@
 import { Redis } from "ioredis";
 
+const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
+const REDIS_CIRCUIT_BREAKER_FAIL_THRESHOLD = Number(
+  process.env.REDIS_CIRCUIT_BREAKER_FAIL_THRESHOLD ?? 3,
+);
+const REDIS_CIRCUIT_BREAKER_OPEN_MS = Number(
+  process.env.REDIS_CIRCUIT_BREAKER_OPEN_MS ?? 10000,
+);
+
 const globalForRedis = globalThis as unknown as {
   redis: Redis;
   redisSubscriber: Redis;
@@ -7,7 +15,7 @@ const globalForRedis = globalThis as unknown as {
 
 export const redis =
   globalForRedis.redis ||
-  new Redis(process.env.REDIS_URL || "redis://localhost:6379", {
+  new Redis(REDIS_URL, {
     maxRetriesPerRequest: null,
     lazyConnect: true,
     retryStrategy: (times) => Math.min(times * 100, 3000),
@@ -15,7 +23,7 @@ export const redis =
 
 export const redisSubscriber =
   globalForRedis.redisSubscriber ||
-  new Redis(process.env.REDIS_URL || "redis://localhost:6379", {
+  new Redis(REDIS_URL, {
     maxRetriesPerRequest: null,
     lazyConnect: true,
   });
@@ -27,6 +35,40 @@ export const INSTANCE_ID =
 if (process.env.NODE_ENV !== "production") {
   globalForRedis.redis = redis;
   globalForRedis.redisSubscriber = redisSubscriber;
+}
+
+let consecutiveRedisFailures = 0;
+let circuitOpenUntil = 0;
+
+function isCircuitOpen() {
+  return circuitOpenUntil > Date.now();
+}
+
+function recordRedisSuccess() {
+  consecutiveRedisFailures = 0;
+  circuitOpenUntil = 0;
+}
+
+function recordRedisFailure() {
+  consecutiveRedisFailures += 1;
+  if (consecutiveRedisFailures >= REDIS_CIRCUIT_BREAKER_FAIL_THRESHOLD) {
+    circuitOpenUntil = Date.now() + REDIS_CIRCUIT_BREAKER_OPEN_MS;
+  }
+}
+
+async function withRedisOperation<T>(operation: () => Promise<T>) {
+  if (isCircuitOpen()) {
+    throw new Error("Redis circuit breaker is open");
+  }
+
+  try {
+    const result = await operation();
+    recordRedisSuccess();
+    return result;
+  } catch (err) {
+    recordRedisFailure();
+    throw err;
+  }
 }
 
 export function getSessionStreamKey(code: string) {
@@ -45,13 +87,15 @@ export async function ensureConsumerGroup(
   streamKey: string,
   groupName: string,
 ) {
-  try {
-    await redis.xgroup("CREATE", streamKey, groupName, "$", "MKSTREAM");
-  } catch (err: any) {
-    if (!err.message.includes("BUSYGROUP")) {
-      throw err;
+  return withRedisOperation(async () => {
+    try {
+      await redis.xgroup("CREATE", streamKey, groupName, "$", "MKSTREAM");
+    } catch (err: any) {
+      if (!err.message.includes("BUSYGROUP")) {
+        throw err;
+      }
     }
-  }
+  });
 }
 
 export async function addSessionStreamEvent(
@@ -59,7 +103,9 @@ export async function addSessionStreamEvent(
   event: Record<string, unknown>,
 ) {
   const streamKey = getSessionStreamKey(code);
-  await redis.xadd(streamKey, "*", "event", JSON.stringify(event));
+  return withRedisOperation(async () => {
+    await redis.xadd(streamKey, "*", "event", JSON.stringify(event));
+  });
 }
 
 export async function publishSessionEvent(
@@ -67,7 +113,9 @@ export async function publishSessionEvent(
   event: Record<string, unknown>,
 ) {
   const channel = getSessionChannel(code);
-  await redis.publish(channel, JSON.stringify(event));
+  return withRedisOperation(async () => {
+    await redis.publish(channel, JSON.stringify(event));
+  });
 }
 
 export async function subscribeSessionChannel(
@@ -75,7 +123,13 @@ export async function subscribeSessionChannel(
   onMessage: (event: Record<string, unknown>) => void,
 ) {
   const channel = getSessionChannel(code);
-  await redisSubscriber.subscribe(channel);
+  const subscriber = new Redis(REDIS_URL, {
+    maxRetriesPerRequest: null,
+    lazyConnect: true,
+  });
+
+  await subscriber.connect();
+  await subscriber.subscribe(channel);
 
   const listener = (channelName: string, message: string) => {
     if (channelName !== channel) return;
@@ -87,14 +141,28 @@ export async function subscribeSessionChannel(
     }
   };
 
-  redisSubscriber.on("message", listener);
+  subscriber.on("message", listener);
 
   return async () => {
-    redisSubscriber.off("message", listener);
-    await redisSubscriber.unsubscribe(channel);
+    subscriber.off("message", listener);
+    await subscriber.unsubscribe(channel);
+    await subscriber.disconnect();
   };
 }
 
 export function redisIsConnected() {
-  return redis.status === "ready" && redisSubscriber.status === "ready";
+  return (
+    !isCircuitOpen() &&
+    redis.status === "ready" &&
+    redisSubscriber.status === "ready"
+  );
+}
+
+export function getRedisStatus() {
+  return {
+    redis: redis.status,
+    subscriber: redisSubscriber.status,
+    circuitOpen: isCircuitOpen(),
+    openUntil: circuitOpenUntil,
+  };
 }

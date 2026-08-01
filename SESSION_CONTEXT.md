@@ -36,6 +36,10 @@
 - `apps/api/src/modules/session/session.routes.ts`
 - `apps/api/src/modules/health/health.routes.ts`
 
+## Working Rule
+- После успешной сборки и прохождения тестов делаем подробный коммит и пуш в `main`.
+- После каждого успешного цикла сборки и тестов фиксируем результат в session context и PLAN.
+
 ## Notes for Next Session
 - Continue API documentation and endpoint coverage work.
 - Verify Swagger UI interactive "Try it out" behavior if needed.

@@ -14,6 +14,7 @@ import {
   redisIsConnected,
   subscribeSessionChannel,
   getSessionStreamKey,
+  getRedisStatus,
 } from "../../shared/lib/redis.js";
 
 const createSessionBodyJsonSchema = {
@@ -36,6 +37,24 @@ const sessionCreatedResponseJsonSchema = {
     expiresAt: { type: "string", format: "date-time", example: new Date(Date.now() + 60000).toISOString() },
   },
   required: ["code", "expiresAt"],
+};
+
+const sessionStatusResponseJsonSchema = {
+  type: "object",
+  properties: {
+    code: { type: "string", example: "IiCA_hJePx" },
+    ready: { type: "boolean", example: true },
+    redis: { type: "boolean", example: true },
+    redisStatus: {
+      type: "object",
+      properties: {
+        redis: { type: "string" },
+        subscriber: { type: "string" },
+        circuitOpen: { type: "boolean" },
+      },
+    },
+  },
+  required: ["code", "ready", "redis", "redisStatus"],
 };
 
 export async function sessionRoutes(server: FastifyInstance) {
@@ -81,15 +100,8 @@ export async function sessionRoutes(server: FastifyInstance) {
           required: ["code"],
         },
         response: {
-          200: {
-            type: "object",
-            properties: {
-              code: { type: "string", example: "IiCA_hJePx" },
-              ready: { type: "boolean", example: true },
-              redis: { type: "boolean", example: true },
-            },
-            required: ["code", "ready", "redis"],
-          },
+          200: sessionStatusResponseJsonSchema,
+          503: sessionStatusResponseJsonSchema,
         },
       },
     },
@@ -98,9 +110,23 @@ export async function sessionRoutes(server: FastifyInstance) {
       const group = getSessionGroupName(code);
       const streamKey = getSessionStreamKey(code);
 
-      await ensureConsumerGroup(streamKey, group);
+      try {
+        await ensureConsumerGroup(streamKey, group);
+      } catch (error) {
+        return reply.status(503).send({
+          code,
+          ready: false,
+          redis: false,
+          redisStatus: getRedisStatus(),
+        });
+      }
 
-      return reply.send({ code, ready: true, redis: redisIsConnected() });
+      return reply.send({
+        code,
+        ready: true,
+        redis: redisIsConnected(),
+        redisStatus: getRedisStatus(),
+      });
     },
   );
 
@@ -112,6 +138,7 @@ export async function sessionRoutes(server: FastifyInstance) {
       const streamKey = getSessionStreamKey(code);
 
       let unsubscribe: (() => Promise<void>) | undefined;
+      let closing = false;
 
       const sendJson = (payload: unknown) => {
         if (connection.readyState === 1) {
@@ -120,6 +147,8 @@ export async function sessionRoutes(server: FastifyInstance) {
       };
 
       const cleanup = async () => {
+        if (closing) return;
+        closing = true;
         if (unsubscribe) {
           await unsubscribe();
           unsubscribe = undefined;
@@ -128,34 +157,43 @@ export async function sessionRoutes(server: FastifyInstance) {
 
       subscribeSessionChannel(code, (event: Record<string, unknown>) => {
         sendJson({ type: "session.event", event });
-      }).then((unsub: () => Promise<void>) => {
-        unsubscribe = unsub;
-      });
+      })
+        .then((unsub: () => Promise<void>) => {
+          unsubscribe = unsub;
+        })
+        .catch(() => {
+          sendJson({ type: "session.error", message: "Unable to subscribe to session channel." });
+          connection.close();
+        });
 
       connection.on("message", async (message: unknown) => {
         try {
           const payload = JSON.parse((message as any).toString());
           const parsed = textUpdatePayloadSchema.safeParse(payload);
 
-          if (parsed.success) {
-            const event = {
-              type: "text.update",
-              code,
-              data: parsed.data.data,
-              sender: request.headers["x-forwarded-for"] || request.ip,
-              createdAt: new Date().toISOString(),
-            };
+          if (!parsed.success) return;
 
-            await addSessionStreamEvent(code, event);
-            await publishSessionEvent(code, event);
-          }
+          const event = {
+            type: "session.text.update",
+            code,
+            data: parsed.data.data,
+            sender: (request.headers["x-forwarded-for"] || request.ip || "unknown") as string,
+            createdAt: new Date().toISOString(),
+          };
+
+          await addSessionStreamEvent(code, event);
+          await publishSessionEvent(code, event);
         } catch {
-          // ignore invalid JSON
+          // ignore invalid JSON or Redis failures
         }
       });
 
       connection.on("close", cleanup);
       connection.on("error", cleanup);
+
+      if (!redisIsConnected()) {
+        sendJson({ type: "session.error", message: "Redis is not available." });
+      }
     });
   });
 }

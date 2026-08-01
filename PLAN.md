@@ -186,7 +186,7 @@ GitHub: https://github.com/DNikulshin
 Документация Fastify: https://www.fastify.io/docs
 Документация Redis Streams: https://redis.io/docs/data-types/streams/
 Конец документа. AI-агент должен продолжить реализацию с Шага 1 (Backend: prisma.ts, redis.ts, health.routes.ts, session.routes.ts).
-коммитим пушим в гитхаб
+После успешной сборки и прохождения тестов делаем подробный коммит и пуш в `main`.
 
 Завершено размышление
 Сейчас закоммитим и запушим все изменения в GitHub.
