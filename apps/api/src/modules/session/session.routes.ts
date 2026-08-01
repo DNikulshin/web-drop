@@ -16,31 +16,93 @@ import {
   getSessionStreamKey,
 } from "../../shared/lib/redis.js";
 
+const createSessionBodyJsonSchema = {
+  type: "object",
+  properties: {
+    ttlSeconds: {
+      type: "integer",
+      minimum: 1,
+      example: 60,
+      description: "Time-to-live for the session in seconds.",
+    },
+  },
+  additionalProperties: false,
+};
+
+const sessionCreatedResponseJsonSchema = {
+  type: "object",
+  properties: {
+    code: { type: "string", example: "IiCA_hJePx" },
+    expiresAt: { type: "string", format: "date-time", example: new Date(Date.now() + 60000).toISOString() },
+  },
+  required: ["code", "expiresAt"],
+};
+
 export async function sessionRoutes(server: FastifyInstance) {
-  server.post("/api/sessions", async (request, reply) => {
-    const body = createSessionBodySchema.parse(request.body ?? {});
-    const code = nanoid(10);
-    const expiresAt = new Date(Date.now() + (body.ttlSeconds ?? 86400) * 1000).toISOString();
+  server.post(
+    "/api/sessions",
+    {
+      schema: {
+        summary: "Create a new session",
+        description: "Creates a session and returns a session code with expiration time.",
+        body: createSessionBodyJsonSchema,
+        response: {
+          201: sessionCreatedResponseJsonSchema,
+        },
+      },
+    },
+    async (request, reply) => {
+      const body = createSessionBodySchema.parse(request.body ?? {});
+      const code = nanoid(10);
+      const expiresAt = new Date(Date.now() + (body.ttlSeconds ?? 86400) * 1000).toISOString();
 
-    await addSessionStreamEvent(code, {
-      type: "session.created",
-      code,
-      expiresAt,
-      createdAt: new Date().toISOString(),
-    });
+      await addSessionStreamEvent(code, {
+        type: "session.created",
+        code,
+        expiresAt,
+        createdAt: new Date().toISOString(),
+      });
 
-    return reply.status(201).send(sessionCreatedResponseSchema.parse({ code, expiresAt }));
-  });
+      return reply.status(201).send(sessionCreatedResponseSchema.parse({ code, expiresAt }));
+    },
+  );
 
-  server.get("/api/sessions/:code", async (request, reply) => {
-    const { code } = request.params as { code: string };
-    const group = getSessionGroupName(code);
-    const streamKey = getSessionStreamKey(code);
+  server.get(
+    "/api/sessions/:code",
+    {
+      schema: {
+        summary: "Get session status",
+        description: "Returns whether the session code exists and whether Redis is connected.",
+        params: {
+          type: "object",
+          properties: {
+            code: { type: "string", example: "IiCA_hJePx" },
+          },
+          required: ["code"],
+        },
+        response: {
+          200: {
+            type: "object",
+            properties: {
+              code: { type: "string", example: "IiCA_hJePx" },
+              ready: { type: "boolean", example: true },
+              redis: { type: "boolean", example: true },
+            },
+            required: ["code", "ready", "redis"],
+          },
+        },
+      },
+    },
+    async (request, reply) => {
+      const { code } = request.params as { code: string };
+      const group = getSessionGroupName(code);
+      const streamKey = getSessionStreamKey(code);
 
-    await ensureConsumerGroup(streamKey, group);
+      await ensureConsumerGroup(streamKey, group);
 
-    return reply.send({ code, ready: true, redis: redisIsConnected() });
-  });
+      return reply.send({ code, ready: true, redis: redisIsConnected() });
+    },
+  );
 
   server.register(async (instance) => {
     instance.get("/ws/session/:code", { websocket: true }, (connection, request) => {

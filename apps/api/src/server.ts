@@ -1,6 +1,8 @@
 import Fastify from "fastify";
 import fastifyWebsocket from "@fastify/websocket";
 import fastifyCors from "@fastify/cors";
+import fastifySwagger from "@fastify/swagger";
+import fastifySwaggerUi from "@fastify/swagger-ui";
 import { sessionRoutes } from "./modules/session/session.routes.js";
 import { healthRoutes } from "./modules/health/health.routes.js";
 import { redis, redisSubscriber } from "./shared/lib/redis.js";
@@ -13,14 +15,42 @@ const server = Fastify({
         ? { target: "pino-pretty", options: { colorize: true } }
         : undefined,
   },
+  ajv: {
+    customOptions: {
+      strict: false,
+    },
+  },
 });
 
 await redis.connect();
 await redisSubscriber.connect();
 
 await server.register(fastifyCors, {
-  origin: process.env.FRONTEND_URL || "http://localhost:3000",
+  origin: process.env.NODE_ENV === "production" ? process.env.FRONTEND_URL || "http://localhost:3000" : true,
   credentials: true,
+});
+
+await server.register(fastifySwagger as any, {
+  routePrefix: "/documentation",
+  openapi: {
+    info: {
+      title: "Web Drop API",
+      description: "API documentation for the Web Drop backend",
+      version: "1.0.0",
+    },
+    servers: [{ url: "/", description: "Relative server path" }],
+  },
+  exposeRoute: true,
+});
+
+await server.register(fastifySwaggerUi, {
+  routePrefix: "/docs",
+  uiConfig: {
+    docExpansion: "list",
+    deepLinking: true,
+  },
+  staticCSP: true,
+  validatorUrl: false,
 });
 
 await server.register(fastifyWebsocket);
