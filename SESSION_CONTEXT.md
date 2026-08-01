@@ -28,6 +28,8 @@
 - Configured Swagger UI and OpenAPI spec on the API server.
 - Added type-safe Fastify Swagger registration by introducing type augmentation.
 - Removed an `any` cast from Swagger plugin registration.
+- Expanded session API with `/api/sessions/:code/history` and `/api/sessions/:code/text`.
+- Added backend tests for session routes and Redis helpers.
 - Committed and pushed the fix to `main`.
 
 ## Key Files

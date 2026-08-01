@@ -13,6 +13,7 @@ import {
   publishSessionEvent,
   redisIsConnected,
   subscribeSessionChannel,
+  getSessionStreamEvents,
   getSessionStreamKey,
   getRedisStatus,
 } from "../../shared/lib/redis.js";
@@ -23,7 +24,6 @@ const createSessionBodyJsonSchema = {
     ttlSeconds: {
       type: "integer",
       minimum: 1,
-      example: 60,
       description: "Time-to-live for the session in seconds.",
     },
   },
@@ -33,8 +33,8 @@ const createSessionBodyJsonSchema = {
 const sessionCreatedResponseJsonSchema = {
   type: "object",
   properties: {
-    code: { type: "string", example: "IiCA_hJePx" },
-    expiresAt: { type: "string", format: "date-time", example: new Date(Date.now() + 60000).toISOString() },
+    code: { type: "string" },
+    expiresAt: { type: "string", format: "date-time" },
   },
   required: ["code", "expiresAt"],
 };
@@ -42,9 +42,9 @@ const sessionCreatedResponseJsonSchema = {
 const sessionStatusResponseJsonSchema = {
   type: "object",
   properties: {
-    code: { type: "string", example: "IiCA_hJePx" },
-    ready: { type: "boolean", example: true },
-    redis: { type: "boolean", example: true },
+    code: { type: "string" },
+    ready: { type: "boolean" },
+    redis: { type: "boolean" },
     redisStatus: {
       type: "object",
       properties: {
@@ -52,9 +52,48 @@ const sessionStatusResponseJsonSchema = {
         subscriber: { type: "string" },
         circuitOpen: { type: "boolean" },
       },
+      required: ["redis", "subscriber", "circuitOpen"],
     },
   },
   required: ["code", "ready", "redis", "redisStatus"],
+};
+
+const textUpdatePayloadJsonSchema = {
+  type: "object",
+  properties: {
+    type: { type: "string", const: "session.text.update" },
+    data: { type: ["string", "object", "number", "boolean", "null"] },
+  },
+  required: ["type", "data"],
+  additionalProperties: false,
+};
+
+const sessionHistoryResponseJsonSchema = {
+  type: "object",
+  properties: {
+    events: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          id: { type: "string" },
+          event: {
+            type: "object",
+            properties: {
+              type: { type: "string" },
+              code: { type: "string" },
+              data: {},
+              sender: { type: "string" },
+              createdAt: { type: "string", format: "date-time" },
+            },
+            required: ["type"],
+          },
+        },
+        required: ["id", "event"],
+      },
+    },
+  },
+  required: ["events"],
 };
 
 export async function sessionRoutes(server: FastifyInstance) {
@@ -95,7 +134,7 @@ export async function sessionRoutes(server: FastifyInstance) {
         params: {
           type: "object",
           properties: {
-            code: { type: "string", example: "IiCA_hJePx" },
+            code: { type: "string" },
           },
           required: ["code"],
         },
@@ -127,6 +166,94 @@ export async function sessionRoutes(server: FastifyInstance) {
         redis: redisIsConnected(),
         redisStatus: getRedisStatus(),
       });
+    },
+  );
+
+  server.get(
+    "/api/sessions/:code/history",
+    {
+      schema: {
+        summary: "Get session history",
+        description: "Returns a timeline of events stored in the session stream.",
+        params: {
+          type: "object",
+          properties: {
+            code: { type: "string" },
+          },
+          required: ["code"],
+        },
+        response: {
+          200: sessionHistoryResponseJsonSchema,
+          503: sessionHistoryResponseJsonSchema,
+        },
+      },
+    },
+    async (request, reply) => {
+      const { code } = request.params as { code: string };
+
+      if (!redisIsConnected()) {
+        return reply.status(503).send({ events: [] });
+      }
+
+      const events = await getSessionStreamEvents(code, { count: 100 });
+      return reply.send({ events });
+    },
+  );
+
+  server.post(
+    "/api/sessions/:code/text",
+    {
+      schema: {
+        summary: "Publish text update",
+        description: "Sends a text update into the session stream and notifies connected clients.",
+        params: {
+          type: "object",
+          properties: {
+            code: { type: "string" },
+          },
+          required: ["code"],
+        },
+        body: textUpdatePayloadJsonSchema,
+        response: {
+          200: {
+            type: "object",
+            properties: {
+              status: { type: "string" },
+              code: { type: "string" },
+              data: {},
+            },
+            required: ["status", "code", "data"],
+          },
+          503: {
+            type: "object",
+            properties: {
+              status: { type: "string" },
+              message: { type: "string" },
+            },
+            required: ["status", "message"],
+          },
+        },
+      },
+    },
+    async (request, reply) => {
+      const { code } = request.params as { code: string };
+      if (!redisIsConnected()) {
+        return reply.status(503).send({ status: "error", message: "Redis unavailable" });
+      }
+
+      const payload = textUpdatePayloadSchema.parse(request.body ?? {});
+      const event = {
+        type: "session.text.update",
+        code,
+        data: payload.data,
+        sender: (request.headers["x-forwarded-for"] || request.ip || "unknown") as string,
+        createdAt: new Date().toISOString(),
+      };
+
+      await addSessionStreamEvent(code, event);
+      await publishSessionEvent(code, event);
+
+      return reply.send({ status: "ok", code, data: payload.data });
     },
   );
 

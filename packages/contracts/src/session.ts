@@ -31,4 +31,33 @@ export const textUpdatePayloadSchema = z.object({
   data: z.unknown().optional(),
 });
 
+export const sessionStatusResponseSchema = z.object({
+  code: z.string(),
+  ready: z.boolean(),
+  redis: z.boolean(),
+  redisStatus: z.object({
+    redis: z.string(),
+    subscriber: z.string(),
+    circuitOpen: z.boolean(),
+  }),
+});
+
+export const sessionHistoryEventSchema = z.object({
+  id: z.string(),
+  event: z.object({
+    type: z.string(),
+    code: z.string().optional(),
+    data: z.unknown().optional(),
+    sender: z.string().optional(),
+    createdAt: z.string().optional(),
+  }),
+});
+
+export const sessionHistoryResponseSchema = z.object({
+  events: z.array(sessionHistoryEventSchema),
+});
+
 export type TextUpdatePayload = z.infer<typeof textUpdatePayloadSchema>;
+export type SessionStatusResponse = z.infer<typeof sessionStatusResponseSchema>;
+export type SessionHistoryEvent = z.infer<typeof sessionHistoryEventSchema>;
+export type SessionHistoryResponse = z.infer<typeof sessionHistoryResponseSchema>;

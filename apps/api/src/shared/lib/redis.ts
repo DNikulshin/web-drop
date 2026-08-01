@@ -118,6 +118,33 @@ export async function publishSessionEvent(
   });
 }
 
+export async function getSessionStreamEvents(
+  code: string,
+  options?: { count?: number; reverse?: boolean },
+) {
+  const streamKey = getSessionStreamKey(code);
+  const count = options?.count ?? 100;
+  const rawEvents = options?.reverse
+    ? await redis.xrevrange(streamKey, "+", "-", "COUNT", count)
+    : await redis.xrange(streamKey, "-", "+", "COUNT", count);
+
+  return rawEvents.map(([id, fields]) => {
+    const eventIndex = fields.findIndex((field) => field === "event");
+    const rawPayload = eventIndex >= 0 ? fields[eventIndex + 1] : null;
+    let event: Record<string, unknown> = {};
+
+    if (rawPayload) {
+      try {
+        event = JSON.parse(rawPayload as string) as Record<string, unknown>;
+      } catch {
+        event = { raw: rawPayload };
+      }
+    }
+
+    return { id, event };
+  });
+}
+
 export async function subscribeSessionChannel(
   code: string,
   onMessage: (event: Record<string, unknown>) => void,
