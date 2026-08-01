@@ -30,6 +30,9 @@
 - Removed an `any` cast from Swagger plugin registration.
 - Expanded session API with `/api/sessions/:code/history` and `/api/sessions/:code/text`.
 - Added backend tests for session routes and Redis helpers.
+- Implemented Redis session metadata and TTL refresh logic.
+- Added session existence checks and 404 handling for session endpoints.
+- Verified `pnpm --filter @web-drop/api exec tsc --noEmit` and `pnpm --filter @web-drop/api test` pass.
 - Committed and pushed the fix to `main`.
 
 ## Key Files

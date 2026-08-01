@@ -173,10 +173,11 @@ Circuit Breaker в состоянии OPEN > 5 минут
 DLQ содержит > 100 сообщений
 Latency > 500ms
 🎯 Следующие шаги (для AI-агента)
+Реализовано: Redis session metadata, TTL refresh, проверка существования сессии и обработка 404.
 Реализовать apps/api/src/shared/lib/prisma.ts — импорт из @web-drop/db
-Реализовать apps/api/src/shared/lib/redis.ts — Circuit Breaker, Consumer Groups
+Реализовать apps/api/src/shared/lib/redis.ts — Circuit Breaker, Consumer Groups и устойчивое JS Pub/Sub
 Реализовать apps/api/src/modules/health/health.routes.ts — health checks
-Реализовать apps/api/src/modules/session/session.routes.ts — полная логика с отказоустойчивостью
+Реализовать apps/api/src/modules/session/session.routes.ts — WebSocket поток и отказоустойчивость
 Написать тесты — unit + integration + fault-tolerance
 Перейти к Frontend — WebSocket service, UI-компоненты
 📞 Контакты и ресурсы

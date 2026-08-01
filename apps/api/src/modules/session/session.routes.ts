@@ -7,15 +7,18 @@ import {
 } from "@web-drop/contracts";
 import {
   addSessionStreamEvent,
-  ensureConsumerGroup,
   getSessionChannel,
   getSessionGroupName,
-  publishSessionEvent,
-  redisIsConnected,
-  subscribeSessionChannel,
   getSessionStreamEvents,
   getSessionStreamKey,
   getRedisStatus,
+  getSessionMetadata,
+  publishSessionEvent,
+  refreshSessionTTL,
+  redisIsConnected,
+  sessionExists,
+  setSessionMetadata,
+  subscribeSessionChannel,
 } from "../../shared/lib/redis.js";
 
 const createSessionBodyJsonSchema = {
@@ -114,11 +117,18 @@ export async function sessionRoutes(server: FastifyInstance) {
       const code = nanoid(10);
       const expiresAt = new Date(Date.now() + (body.ttlSeconds ?? 86400) * 1000).toISOString();
 
+      const createdAt = new Date().toISOString();
       await addSessionStreamEvent(code, {
         type: "session.created",
         code,
         expiresAt,
-        createdAt: new Date().toISOString(),
+        createdAt,
+      });
+
+      await setSessionMetadata(code, {
+        createdAt,
+        ttlSeconds: body.ttlSeconds ?? 86400,
+        expiresAt,
       });
 
       return reply.status(201).send(sessionCreatedResponseSchema.parse({ code, expiresAt }));
@@ -146,12 +156,8 @@ export async function sessionRoutes(server: FastifyInstance) {
     },
     async (request, reply) => {
       const { code } = request.params as { code: string };
-      const group = getSessionGroupName(code);
-      const streamKey = getSessionStreamKey(code);
 
-      try {
-        await ensureConsumerGroup(streamKey, group);
-      } catch (error) {
+      if (!redisIsConnected()) {
         return reply.status(503).send({
           code,
           ready: false,
@@ -160,10 +166,11 @@ export async function sessionRoutes(server: FastifyInstance) {
         });
       }
 
+      const exists = await sessionExists(code);
       return reply.send({
         code,
-        ready: true,
-        redis: redisIsConnected(),
+        ready: exists,
+        redis: true,
         redisStatus: getRedisStatus(),
       });
     },
@@ -195,6 +202,11 @@ export async function sessionRoutes(server: FastifyInstance) {
         return reply.status(503).send({ events: [] });
       }
 
+      const exists = await sessionExists(code);
+      if (!exists) {
+        return reply.send({ events: [] });
+      }
+
       const events = await getSessionStreamEvents(code, { count: 100 });
       return reply.send({ events });
     },
@@ -224,6 +236,14 @@ export async function sessionRoutes(server: FastifyInstance) {
             },
             required: ["status", "code", "data"],
           },
+          404: {
+            type: "object",
+            properties: {
+              status: { type: "string" },
+              message: { type: "string" },
+            },
+            required: ["status", "message"],
+          },
           503: {
             type: "object",
             properties: {
@@ -241,6 +261,11 @@ export async function sessionRoutes(server: FastifyInstance) {
         return reply.status(503).send({ status: "error", message: "Redis unavailable" });
       }
 
+      const exists = await sessionExists(code);
+      if (!exists) {
+        return reply.status(404).send({ status: "error", message: "Session not found" });
+      }
+
       const payload = textUpdatePayloadSchema.parse(request.body ?? {});
       const event = {
         type: "session.text.update",
@@ -251,6 +276,7 @@ export async function sessionRoutes(server: FastifyInstance) {
       };
 
       await addSessionStreamEvent(code, event);
+      await refreshSessionTTL(code);
       await publishSessionEvent(code, event);
 
       return reply.send({ status: "ok", code, data: payload.data });
@@ -260,9 +286,6 @@ export async function sessionRoutes(server: FastifyInstance) {
   server.register(async (instance) => {
     instance.get("/ws/session/:code", { websocket: true }, (connection, request) => {
       const { code } = request.params as { code: string };
-      const channel = getSessionChannel(code);
-      const group = getSessionGroupName(code);
-      const streamKey = getSessionStreamKey(code);
 
       let unsubscribe: (() => Promise<void>) | undefined;
       let closing = false;

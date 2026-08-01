@@ -83,6 +83,10 @@ export function getSessionGroupName(code: string) {
   return `session:${code}:group`;
 }
 
+export function getSessionMetaKey(code: string) {
+  return `session:${code}:meta`;
+}
+
 export async function ensureConsumerGroup(
   streamKey: string,
   groupName: string,
@@ -95,6 +99,59 @@ export async function ensureConsumerGroup(
         throw err;
       }
     }
+  });
+}
+
+export async function setSessionMetadata(
+  code: string,
+  metadata: { createdAt: string; ttlSeconds: number; expiresAt: string },
+) {
+  const metaKey = getSessionMetaKey(code);
+  const streamKey = getSessionStreamKey(code);
+  const ttlSeconds = metadata.ttlSeconds;
+
+  return withRedisOperation(async () => {
+    await redis.set(metaKey, JSON.stringify(metadata), "EX", ttlSeconds);
+    await redis.expire(streamKey, ttlSeconds);
+  });
+}
+
+export async function getSessionMetadata(code: string) {
+  const metaKey = getSessionMetaKey(code);
+  const raw = await withRedisOperation(async () => redis.get(metaKey));
+  if (!raw) return null;
+
+  try {
+    return JSON.parse(raw) as { createdAt: string; ttlSeconds: number; expiresAt: string };
+  } catch {
+    return null;
+  }
+}
+
+export async function refreshSessionTTL(code: string) {
+  const metadata = await getSessionMetadata(code);
+  if (!metadata) return;
+
+  const metaKey = getSessionMetaKey(code);
+  const streamKey = getSessionStreamKey(code);
+  const ttlSeconds = metadata.ttlSeconds;
+
+  return withRedisOperation(async () => {
+    await redis.expire(streamKey, ttlSeconds);
+    await redis.expire(metaKey, ttlSeconds);
+  });
+}
+
+export async function sessionExists(code: string) {
+  const metaKey = getSessionMetaKey(code);
+  return withRedisOperation(async () => (await redis.exists(metaKey)) > 0);
+}
+
+export async function deleteSession(code: string) {
+  const metaKey = getSessionMetaKey(code);
+  const streamKey = getSessionStreamKey(code);
+  return withRedisOperation(async () => {
+    await redis.del(streamKey, metaKey);
   });
 }
 
@@ -124,24 +181,27 @@ export async function getSessionStreamEvents(
 ) {
   const streamKey = getSessionStreamKey(code);
   const count = options?.count ?? 100;
-  const rawEvents = options?.reverse
-    ? await redis.xrevrange(streamKey, "+", "-", "COUNT", count)
-    : await redis.xrange(streamKey, "-", "+", "COUNT", count);
 
-  return rawEvents.map(([id, fields]) => {
-    const eventIndex = fields.findIndex((field) => field === "event");
-    const rawPayload = eventIndex >= 0 ? fields[eventIndex + 1] : null;
-    let event: Record<string, unknown> = {};
+  return withRedisOperation(async () => {
+    const rawEvents = options?.reverse
+      ? await redis.xrevrange(streamKey, "+", "-", "COUNT", count)
+      : await redis.xrange(streamKey, "-", "+", "COUNT", count);
 
-    if (rawPayload) {
-      try {
-        event = JSON.parse(rawPayload as string) as Record<string, unknown>;
-      } catch {
-        event = { raw: rawPayload };
+    return rawEvents.map(([id, fields]) => {
+      const eventIndex = fields.findIndex((field) => field === "event");
+      const rawPayload = eventIndex >= 0 ? fields[eventIndex + 1] : null;
+      let event: Record<string, unknown> = {};
+
+      if (rawPayload) {
+        try {
+          event = JSON.parse(rawPayload as string) as Record<string, unknown>;
+        } catch {
+          event = { raw: rawPayload };
+        }
       }
-    }
 
-    return { id, event };
+      return { id, event };
+    });
   });
 }
 
@@ -155,8 +215,10 @@ export async function subscribeSessionChannel(
     lazyConnect: true,
   });
 
-  await subscriber.connect();
-  await subscriber.subscribe(channel);
+  await withRedisOperation(async () => {
+    await subscriber.connect();
+    await subscriber.subscribe(channel);
+  });
 
   const listener = (channelName: string, message: string) => {
     if (channelName !== channel) return;
