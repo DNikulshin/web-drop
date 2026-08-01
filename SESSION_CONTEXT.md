@@ -44,6 +44,7 @@
 ## Working Rule
 - После успешной сборки и прохождения тестов делаем подробный коммит и пуш в `main`.
 - После каждого успешного цикла сборки и тестов фиксируем результат в session context и PLAN.
+- Ведём диалог только на русском языке — это жёсткое правило для всей сессии.
 
 ## Notes for Next Session
 - Continue API documentation and endpoint coverage work.
