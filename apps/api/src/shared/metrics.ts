@@ -33,4 +33,3 @@ register.registerMetric(cleanupBatches);
 export function getMetrics() {
   return register.metrics();
 }
-*** End Patch

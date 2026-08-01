@@ -1,10 +1,10 @@
+/** Recreated file content */
+
 import { FastifyInstance } from "fastify";
 import { nanoid } from "nanoid";
 import fs from "fs/promises";
 import path from "path";
 import { ensureUploadDir, saveFileLocal, saveFileS3, readFile, readMeta } from "../../shared/storage.js";
-
-const UPLOAD_DIR = path.join(process.cwd(), "apps/api/data/uploads");
 
 export async function filesRoutes(server: FastifyInstance) {
   await ensureUploadDir();
@@ -36,7 +36,7 @@ export async function filesRoutes(server: FastifyInstance) {
         },
       },
     },
-      async (request, reply) => {
+    async (request, reply) => {
       const body = request.body as { filename: string; content: string; ttlSeconds?: number };
       const code = nanoid(8);
 
@@ -53,10 +53,10 @@ export async function filesRoutes(server: FastifyInstance) {
         }
 
         const url = `/files/${code}`;
-        return reply.status(201).send({ code, url, expiresAt });
+        return reply.code(201).send({ code, url, expiresAt });
       } catch (err) {
         server.log.error(err);
-        return reply.status(500).send({ statusCode: 500, error: "Internal Server Error", message: "Unable to save file" });
+        return (reply as any).code(500).send({ statusCode: 500, error: "Internal Server Error", message: "Unable to save file" });
       }
     },
   );
@@ -91,10 +91,10 @@ export async function filesRoutes(server: FastifyInstance) {
         } else {
           await saveFileLocal(code, buffer, meta);
         }
-        return reply.status(201).send({ code, url: `/files/${code}`, expiresAt });
+        return reply.code(201).send({ code, url: `/files/${code}`, expiresAt });
       } catch (err) {
         server.log.error(err);
-        return reply.status(500).send({ statusCode: 500, error: "Internal Server Error", message: "Unable to save file" });
+        return (reply as any).code(500).send({ statusCode: 500, error: "Internal Server Error", message: "Unable to save file" });
       }
     },
   );
@@ -108,25 +108,24 @@ export async function filesRoutes(server: FastifyInstance) {
     },
     async (request, reply) => {
       const { code } = request.params as { code: string };
-      const filePath = path.join(UPLOAD_DIR, code);
-      const metaPath = path.join(UPLOAD_DIR, `${code}.meta.json`);
 
       try {
-        const [fileStat] = await Promise.all([fs.stat(filePath).catch(() => null)]);
-        if (!fileStat) {
-          return reply.status(404).send({ status: "error", message: "File not found" });
+        const meta = (await readMeta(code)) || { filename: code };
+
+        // Try reading via storage abstraction (which handles local or S3)
+        try {
+          const buffer = await readFile(code);
+          reply.header("content-disposition", `attachment; filename="${meta.filename}"`);
+          return reply.send(buffer);
+        } catch (err) {
+          // not found or other read error -> 404
+          return reply.code(404).send({ status: "error", message: "File not found" });
         }
-
-        const metaRaw = await fs.readFile(metaPath, "utf-8").catch(() => null);
-        const meta = metaRaw ? JSON.parse(metaRaw) : { filename: code };
-
-        const stream = await fs.readFile(filePath);
-        reply.header("content-disposition", `attachment; filename="${meta.filename}"`);
-        return reply.send(stream);
       } catch (err) {
         server.log.error(err);
-        return reply.status(500).send({ statusCode: 500, error: "Internal Server Error", message: "Unable to read file" });
+        return (reply as any).code(500).send({ statusCode: 500, error: "Internal Server Error", message: "Unable to read file" });
       }
     },
   );
 }
+

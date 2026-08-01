@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import Fastify from 'fastify';
-import { filesRoutes } from './files.routes';
-import { listExpired, deleteFile } from '../../shared/storage';
+import { filesRoutes } from './files.routes.js';
+import { listExpired, deleteFile } from '../../shared/storage.js';
 
 function base64(str: string) {
   return Buffer.from(str).toString('base64');

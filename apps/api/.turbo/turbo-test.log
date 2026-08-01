@@ -1,13 +1,565 @@
 
-> @web-drop/api@1.0.0 test C:\Users\dmn\Desktop\DEV\web-drop\apps\api
+> @web-drop/api@1.0.0 test /workspaces/web-drop/apps/api
 > vitest run
 
+[?25l
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.10 [39m[90m/workspaces/web-drop/apps/api[39m
 
-[7m[1m[36m RUN [39m[22m[27m [36mv1.6.1[39m [90mC:/Users/dmn/Desktop/DEV/web-drop/apps/api[39m
+[?2026h
+[1m[33m ❯ [39m[22mdist/src/modules/files/files.s3ws.e2e.test.js[2m [queued][22m
 
-[2minclude: [22m[33m**/*.{test,spec}.?(c|m)[jt]s?(x)[39m
-[2mexclude:  [22m[33m**/node_modules/**[2m, [22m**/dist/**[2m, [22m**/cypress/**[2m, [22m**/.{idea,git,cache,output,temp}/**[2m, [22m**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,eslint,prettier}.config.*[39m
-[2mwatch exclude:  [22m[33m**/node_modules/**[2m, [22m**/dist/**[39m
-[31m
-No test files found, exiting with code 1[39m
- ELIFECYCLE  Test failed. See above for more details.
+[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m0 passed[39m[22m[90m (0)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m403ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22mdist/src/modules/files/files.s3ws.e2e.test.js[2m [queued][22m
+
+[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m0 passed[39m[22m[90m (0)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m906ms
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22mdist/src/modules/files/files.s3ws.e2e.test.js[2m 0/2[22m
+
+[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m0 passed[39m[22m[90m (2)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m1.01s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22mdist/src/modules/files/files.s3ws.e2e.test.js[2m 0/2[22m
+
+[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m0 passed[39m[22m[90m (2)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m1.91s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22mdist/src/modules/files/files.s3ws.e2e.test.js[2m 0/2[22m
+
+[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m0 passed[39m[22m[90m (2)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m2.91s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[90mstderr[2m | dist/src/modules/files/files.s3ws.e2e.test.js[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
+[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
+
+
+[1m[33m ❯ [39m[22mdist/src/modules/files/files.s3ws.e2e.test.js[2m 1/2[22m
+
+[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m3.01s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[90mstdout[2m | dist/src/modules/files/files.s3ws.e2e.test.js[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
+[22m[39mWS route open {
+  code: [32m'x6KXrfppVx'[39m,
+  params: NullObject <[Object: null prototype] {}> { code: [32m'x6KXrfppVx'[39m },
+  rawUrl: [32m'/ws/session/x6KXrfppVx'[39m,
+  redisReady: [33mtrue[39m
+}
+
+[90mstdout[2m | dist/src/modules/files/files.s3ws.e2e.test.js[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
+[22m[39mWS message received <Buffer 7b 22 74 79 70 65 22 3a 22 73 65 73 73 69 6f 6e 2e 74 65 78 74 2e 75 70 64 61 74 65 22 2c 22 64 61 74 61 22 3a 22 68 65 6c 6c 6f 20 65 32 65 22 7d>
+
+[90mstdout[2m | dist/src/modules/files/files.s3ws.e2e.test.js[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
+[22m[39mWS subscribe ready x6KXrfppVx
+
+[90mstdout[2m | dist/src/modules/files/files.s3ws.e2e.test.js[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
+[22m[39mWS publish event {
+  type: [32m'session.text.update'[39m,
+  code: [32m'x6KXrfppVx'[39m,
+  data: [32m'hello e2e'[39m,
+  sender: [32m'127.0.0.1'[39m,
+  createdAt: [32m'2026-08-01T03:21:57.852Z'[39m
+}
+
+[90mstdout[2m | dist/src/modules/files/files.s3ws.e2e.test.js[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
+[22m[39mWS subscription event {
+  type: [32m'session.text.update'[39m,
+  code: [32m'x6KXrfppVx'[39m,
+  data: [32m'hello e2e'[39m,
+  sender: [32m'127.0.0.1'[39m,
+  createdAt: [32m'2026-08-01T03:21:57.852Z'[39m
+}
+
+
+[1m[33m ❯ [39m[22mdist/src/modules/files/files.s3ws.e2e.test.js[2m 1/2[22m
+
+[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m1 passed[39m[22m[90m (2)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m3.01s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m dist/src/modules/files/files.s3ws.e2e.test.js [2m([22m[2m2 tests[22m[2m)[22m[33m 1998[2mms[22m[39m
+     [33m[2m✓[22m[39m S3 upload -> download -> cleanup [33m 1894[2mms[22m[39m
+
+[1m[33m ❯ [39m[22msrc/modules/files/files.s3ws.e2e.test.ts[2m [queued][22m
+
+[2m Test Files [22m[1m[32m1 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m2 passed[39m[22m[90m (2)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m3.31s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22msrc/modules/files/files.s3ws.e2e.test.ts[2m 0/2[22m
+
+[2m Test Files [22m[1m[32m1 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m2 passed[39m[22m[90m (4)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m3.61s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22msrc/modules/files/files.s3ws.e2e.test.ts[2m 0/2[22m
+
+[2m Test Files [22m[1m[32m1 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m2 passed[39m[22m[90m (4)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m3.91s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22msrc/modules/files/files.s3ws.e2e.test.ts[2m 0/2[22m
+
+[2m Test Files [22m[1m[32m1 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m2 passed[39m[22m[90m (4)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m4.92s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[90mstderr[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
+[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
+
+
+[1m[33m ❯ [39m[22msrc/modules/files/files.s3ws.e2e.test.ts[2m 1/2[22m
+
+[2m Test Files [22m[1m[32m1 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m3 passed[39m[22m[90m (4)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m5.42s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[90mstdout[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
+[22m[39mWS route open {
+  code: [32m'ehRVVqOGiO'[39m,
+  params: NullObject <[Object: null prototype] {}> { code: [32m'ehRVVqOGiO'[39m },
+  rawUrl: [32m'/ws/session/ehRVVqOGiO'[39m,
+  redisReady: [33mtrue[39m
+}
+
+[90mstdout[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
+[22m[39mWS message received <Buffer 7b 22 74 79 70 65 22 3a 22 73 65 73 73 69 6f 6e 2e 74 65 78 74 2e 75 70 64 61 74 65 22 2c 22 64 61 74 61 22 3a 22 68 65 6c 6c 6f 20 65 32 65 22 7d>
+
+[90mstdout[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
+[22m[39mWS subscribe ready ehRVVqOGiO
+
+[90mstdout[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
+[22m[39mWS publish event {
+  type: [32m'session.text.update'[39m,
+  code: [32m'ehRVVqOGiO'[39m,
+  data: [32m'hello e2e'[39m,
+  sender: [32m'127.0.0.1'[39m,
+  createdAt: [32m'2026-08-01T03:22:00.302Z'[39m
+}
+
+[90mstdout[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
+[22m[39mWS subscription event {
+  type: [32m'session.text.update'[39m,
+  code: [32m'ehRVVqOGiO'[39m,
+  data: [32m'hello e2e'[39m,
+  sender: [32m'127.0.0.1'[39m,
+  createdAt: [32m'2026-08-01T03:22:00.302Z'[39m
+}
+
+ [32m✓[39m src/modules/files/files.s3ws.e2e.test.ts [2m([22m[2m2 tests[22m[2m)[22m[33m 1876[2mms[22m[39m
+     [33m[2m✓[22m[39m S3 upload -> download -> cleanup [33m 1616[2mms[22m[39m
+
+[1m[33m ❯ [39m[22msrc/modules/files/files.e2e.test.ts[2m [queued][22m
+
+[2m Test Files [22m[1m[32m2 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m4 passed[39m[22m[90m (4)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m5.73s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22msrc/modules/files/files.e2e.test.ts[2m 0/1[22m
+
+[2m Test Files [22m[1m[32m2 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m4 passed[39m[22m[90m (5)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m5.93s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22msrc/modules/files/files.e2e.test.ts[2m 0/1[22m
+
+[2m Test Files [22m[1m[32m2 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m4 passed[39m[22m[90m (5)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m6.93s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22msrc/modules/files/files.e2e.test.ts[2m 1/1[22m
+
+[2m Test Files [22m[1m[32m2 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m5 passed[39m[22m[90m (5)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m7.53s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/modules/files/files.e2e.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 1629[2mms[22m[39m
+     [33m[2m✓[22m[39m upload -> download -> ttl cleanup [33m 1627[2mms[22m[39m
+
+[1m[33m ❯ [39m[22mdist/src/modules/files/files.e2e.test.js[2m [queued][22m
+
+[2m Test Files [22m[1m[32m3 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m5 passed[39m[22m[90m (5)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m7.63s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22mdist/src/modules/files/files.e2e.test.js[2m 0/1[22m
+
+[2m Test Files [22m[1m[32m3 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m5 passed[39m[22m[90m (6)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m7.83s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22mdist/src/modules/files/files.e2e.test.js[2m 0/1[22m
+
+[2m Test Files [22m[1m[32m3 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m5 passed[39m[22m[90m (6)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m7.93s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22mdist/src/modules/files/files.e2e.test.js[2m 0/1[22m
+
+[2m Test Files [22m[1m[32m3 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m5 passed[39m[22m[90m (6)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m8.94s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22mdist/src/modules/files/files.e2e.test.js[2m 1/1[22m
+
+[2m Test Files [22m[1m[32m3 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m6 passed[39m[22m[90m (6)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m9.54s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m dist/src/modules/files/files.e2e.test.js [2m([22m[2m1 test[22m[2m)[22m[33m 1674[2mms[22m[39m
+     [33m[2m✓[22m[39m upload -> download -> ttl cleanup [33m 1669[2mms[22m[39m
+
+[1m[33m ❯ [39m[22mdist/src/modules/session/session.routes.test.js[2m [queued][22m
+
+[2m Test Files [22m[1m[32m4 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m6 passed[39m[22m[90m (6)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m9.64s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22mdist/src/modules/session/session.routes.test.js[2m 0/4[22m
+
+[2m Test Files [22m[1m[32m4 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m6 passed[39m[22m[90m (10)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m9.84s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[90mstderr[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould create a session and return a code
+[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
+
+[90mstderr[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould return session history and status
+[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
+
+[90mstderr[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould accept text updates over HTTP and return ok
+[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
+
+[90mstderr[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
+
+
+[1m[33m ❯ [39m[22mdist/src/modules/session/session.routes.test.js[2m 1/4[22m
+
+[2m Test Files [22m[1m[32m4 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m7 passed[39m[22m[90m (10)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m10.14s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mcreate response [33m201[39m { code: [32m'Q7M-cI4oBz'[39m, expiresAt: [32m'2026-08-02T03:22:04.948Z'[39m }
+
+[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mWS route open {
+  code: [32m'Q7M-cI4oBz'[39m,
+  params: NullObject <[Object: null prototype] {}> { code: [32m'Q7M-cI4oBz'[39m },
+  rawUrl: [32m'/ws/session/Q7M-cI4oBz'[39m,
+  redisReady: [33mtrue[39m
+}
+
+[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mWS open
+
+[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mWS subscribe ready Q7M-cI4oBz
+
+[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mWS send message
+
+[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mWS message received <Buffer 7b 22 74 79 70 65 22 3a 22 73 65 73 73 69 6f 6e 2e 74 65 78 74 2e 75 70 64 61 74 65 22 2c 22 64 61 74 61 22 3a 22 68 65 6c 6c 6f 20 77 65 62 73 6f 63 ... 5 more bytes>
+
+[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mWS publish event {
+  type: [32m'session.text.update'[39m,
+  code: [32m'Q7M-cI4oBz'[39m,
+  data: [32m'hello websocket'[39m,
+  sender: [32m'127.0.0.1'[39m,
+  createdAt: [32m'2026-08-01T03:22:05.162Z'[39m
+}
+
+[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mWS subscription event {
+  type: [32m'session.text.update'[39m,
+  code: [32m'Q7M-cI4oBz'[39m,
+  data: [32m'hello websocket'[39m,
+  sender: [32m'127.0.0.1'[39m,
+  createdAt: [32m'2026-08-01T03:22:05.162Z'[39m
+}
+
+[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mWS received {
+  type: [32m'session.event'[39m,
+  event: {
+    type: [32m'session.text.update'[39m,
+    code: [32m'Q7M-cI4oBz'[39m,
+    data: [32m'hello websocket'[39m,
+    sender: [32m'127.0.0.1'[39m,
+    createdAt: [32m'2026-08-01T03:22:05.162Z'[39m
+  }
+}
+
+[90mstdout[2m | dist/src/modules/session/session.routes.test.js
+[22m[39mWS close [33m1005[39m 
+
+
+[1m[33m ❯ [39m[22mdist/src/modules/session/session.routes.test.js[2m 4/4[22m
+
+[2m Test Files [22m[1m[32m4 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m10 passed[39m[22m[90m (10)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m10.35s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m dist/src/modules/session/session.routes.test.js [2m([22m[2m4 tests[22m[2m)[22m[33m 495[2mms[22m[39m
+
+[1m[33m ❯ [39m[22msrc/modules/session/session.routes.test.ts[2m [queued][22m
+
+[2m Test Files [22m[1m[32m5 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m10 passed[39m[22m[90m (10)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m10.55s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22msrc/modules/session/session.routes.test.ts[2m [queued][22m
+
+[2m Test Files [22m[1m[32m5 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m10 passed[39m[22m[90m (10)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m10.95s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[90mstderr[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould create a session and return a code
+[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
+
+[90mstderr[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould return session history and status
+[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
+
+[90mstderr[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould accept text updates over HTTP and return ok
+[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
+
+[90mstderr[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
+
+
+[1m[33m ❯ [39m[22msrc/modules/session/session.routes.test.ts[2m 1/4[22m
+
+[2m Test Files [22m[1m[32m5 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m11 passed[39m[22m[90m (14)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m11.25s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mcreate response [33m201[39m { code: [32m'Gjzz90Koj1'[39m, expiresAt: [32m'2026-08-02T03:22:06.050Z'[39m }
+
+[90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mWS route open {
+  code: [32m'Gjzz90Koj1'[39m,
+  params: NullObject <[Object: null prototype] {}> { code: [32m'Gjzz90Koj1'[39m },
+  rawUrl: [32m'/ws/session/Gjzz90Koj1'[39m,
+  redisReady: [33mtrue[39m
+}
+
+[90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mWS open
+
+[90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mWS subscribe ready Gjzz90Koj1
+
+[90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mWS send message
+
+[90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mWS message received <Buffer 7b 22 74 79 70 65 22 3a 22 73 65 73 73 69 6f 6e 2e 74 65 78 74 2e 75 70 64 61 74 65 22 2c 22 64 61 74 61 22 3a 22 68 65 6c 6c 6f 20 77 65 62 73 6f 63 ... 5 more bytes>
+
+[90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mWS publish event {
+  type: [32m'session.text.update'[39m,
+  code: [32m'Gjzz90Koj1'[39m,
+  data: [32m'hello websocket'[39m,
+  sender: [32m'127.0.0.1'[39m,
+  createdAt: [32m'2026-08-01T03:22:06.269Z'[39m
+}
+
+[90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mWS subscription event {
+  type: [32m'session.text.update'[39m,
+  code: [32m'Gjzz90Koj1'[39m,
+  data: [32m'hello websocket'[39m,
+  sender: [32m'127.0.0.1'[39m,
+  createdAt: [32m'2026-08-01T03:22:06.269Z'[39m
+}
+
+[90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mWS received {
+  type: [32m'session.event'[39m,
+  event: {
+    type: [32m'session.text.update'[39m,
+    code: [32m'Gjzz90Koj1'[39m,
+    data: [32m'hello websocket'[39m,
+    sender: [32m'127.0.0.1'[39m,
+    createdAt: [32m'2026-08-01T03:22:06.269Z'[39m
+  }
+}
+
+[90mstdout[2m | src/modules/session/session.routes.test.ts
+[22m[39mWS close [33m1005[39m 
+
+
+[1m[33m ❯ [39m[22msrc/modules/session/session.routes.test.ts[2m 4/4[22m
+
+[2m Test Files [22m[1m[32m5 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m14 passed[39m[22m[90m (14)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m11.45s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/modules/session/session.routes.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 484[2mms[22m[39m
+
+[1m[33m ❯ [39m[22msrc/modules/files/files.routes.test.ts[2m [queued][22m
+
+[2m Test Files [22m[1m[32m6 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m14 passed[39m[22m[90m (14)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m11.76s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22msrc/modules/files/files.routes.test.ts[2m 0/1[22m
+
+[2m Test Files [22m[1m[32m6 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m14 passed[39m[22m[90m (15)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m11.96s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22msrc/modules/files/files.routes.test.ts[2m 1/1[22m
+
+[2m Test Files [22m[1m[32m6 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m15 passed[39m[22m[90m (15)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m12.06s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/modules/files/files.routes.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 147[2mms[22m[39m
+
+[1m[33m ❯ [39m[22mdist/src/shared/lib/redis.test.js[2m [queued][22m
+
+[2m Test Files [22m[1m[32m7 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m15 passed[39m[22m[90m (15)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m12.27s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22mdist/src/shared/lib/redis.test.js[2m 0/4[22m
+
+[2m Test Files [22m[1m[32m7 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m15 passed[39m[22m[90m (19)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m12.37s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22mdist/src/shared/lib/redis.test.js[2m 1/4[22m
+
+[2m Test Files [22m[1m[32m7 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m16 passed[39m[22m[90m (19)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m12.47s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m dist/src/shared/lib/redis.test.js [2m([22m[2m4 tests[22m[2m)[22m[32m 136[2mms[22m[39m
+
+[1m[33m ❯ [39m[22msrc/shared/lib/redis.test.ts[2m [queued][22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m19 passed[39m[22m[90m (19)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m12.67s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22msrc/shared/lib/redis.test.ts[2m 1/4[22m
+
+[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m20 passed[39m[22m[90m (23)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m12.77s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/shared/lib/redis.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 134[2mms[22m[39m
+
+[1m[33m ❯ [39m[22mdist/src/modules/files/files.routes.test.js[2m [queued][22m
+
+[2m Test Files [22m[1m[32m9 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m23 passed[39m[22m[90m (23)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m12.97s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22mdist/src/modules/files/files.routes.test.js[2m 0/1[22m
+
+[2m Test Files [22m[1m[32m9 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m23 passed[39m[22m[90m (24)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m13.07s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22mdist/src/modules/files/files.routes.test.js[2m 1/1[22m
+
+[2m Test Files [22m[1m[32m9 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m24 passed[39m[22m[90m (24)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m13.27s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m dist/src/modules/files/files.routes.test.js [2m([22m[2m1 test[22m[2m)[22m[32m 146[2mms[22m[39m
+
+[1m[33m ❯ [39m[22mdist/src/modules/health/health.routes.test.js[2m [queued][22m
+
+[2m Test Files [22m[1m[32m10 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m24 passed[39m[22m[90m (24)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m13.37s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22mdist/src/modules/health/health.routes.test.js[2m 0/2[22m
+
+[2m Test Files [22m[1m[32m10 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m24 passed[39m[22m[90m (26)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m13.57s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22mdist/src/modules/health/health.routes.test.js[2m 1/2[22m
+
+[2m Test Files [22m[1m[32m10 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m25 passed[39m[22m[90m (26)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m13.67s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m dist/src/modules/health/health.routes.test.js [2m([22m[2m2 tests[22m[2m)[22m[32m 115[2mms[22m[39m
+
+[1m[33m ❯ [39m[22msrc/modules/health/health.routes.test.ts[2m [queued][22m
+
+[2m Test Files [22m[1m[32m11 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m26 passed[39m[22m[90m (26)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m13.87s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22msrc/modules/health/health.routes.test.ts[2m [queued][22m
+
+[2m Test Files [22m[1m[32m11 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m26 passed[39m[22m[90m (26)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m13.97s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22msrc/modules/health/health.routes.test.ts[2m 0/2[22m
+
+[2m Test Files [22m[1m[32m11 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m26 passed[39m[22m[90m (28)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m14.07s
+[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
+[1m[33m ❯ [39m[22msrc/modules/health/health.routes.test.ts[2m 1/2[22m
+
+[2m Test Files [22m[1m[32m11 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m[1m[32m27 passed[39m[22m[90m (28)[39m
+[2m   Start at [22m03:21:54
+[2m   Duration [22m14.17s
+[?2026l[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/modules/health/health.routes.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 103[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m12 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m [1m[32m28 passed[39m[22m[90m (28)[39m
+[2m   Start at [22m 03:21:54
+[2m   Duration [22m 14.24s[2m (transform 389ms, setup 0ms, import 2.80s, tests 8.94s, environment 2ms)[22m
+
+[?25h

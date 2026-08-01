@@ -125,7 +125,7 @@ export async function sessionRoutes(server: FastifyInstance) {
       const ready = await ensureRedisClientsReady();
       if (!ready) {
         server.log.error({ redis: redis.status, redisSubscriber: redisSubscriber.status }, "Redis clients are not ready");
-        return reply.status(503).send({ statusCode: 503, error: "Service Unavailable", message: "Redis unavailable" });
+        return (reply as any).code(503).send({ statusCode: 503, error: "Service Unavailable", message: "Redis unavailable" });
       }
 
       await addSessionStreamEvent(code, {
@@ -141,7 +141,7 @@ export async function sessionRoutes(server: FastifyInstance) {
         expiresAt,
       });
 
-      return reply.status(201).send(sessionCreatedResponseSchema.parse({ code, expiresAt }));
+      return reply.code(201).send(sessionCreatedResponseSchema.parse({ code, expiresAt }));
     },
   );
 
@@ -209,7 +209,7 @@ export async function sessionRoutes(server: FastifyInstance) {
       const { code } = request.params as { code: string };
 
       if (!redisIsConnected()) {
-        return reply.status(503).send({ events: [] });
+        return reply.code(503).send({ events: [] });
       }
 
       const exists = await sessionExists(code);
@@ -268,7 +268,7 @@ export async function sessionRoutes(server: FastifyInstance) {
     async (request, reply) => {
       const { code } = request.params as { code: string };
       if (!redisIsConnected()) {
-        return reply.status(503).send({ status: "error", message: "Redis unavailable" });
+        return reply.code(503).send({ status: "error", message: "Redis unavailable" });
       }
 
       const exists = await sessionExists(code);

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import Fastify from "fastify";
-import { filesRoutes } from "./files.routes";
+import { filesRoutes } from "./files.routes.js";
 
 function base64(str: string) {
   return Buffer.from(str).toString("base64");

@@ -37,7 +37,7 @@ export async function qrRoutes(server: FastifyInstance) {
       return reply.send(buffer);
     } catch (err) {
       server.log.error(err);
-      return reply.status(500).send({ statusCode: 500, error: 'Internal Server Error', message: 'Unable to generate QR' });
+      return (reply as any).code(500).send({ statusCode: 500, error: 'Internal Server Error', message: 'Unable to generate QR' });
     }
   });
 }

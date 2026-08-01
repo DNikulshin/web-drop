@@ -67,4 +67,3 @@ export function startCleanupWorker(server: FastifyInstance, options?: { batchSiz
     }
   };
 }
-*** End Patch

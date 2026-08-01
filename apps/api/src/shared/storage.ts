@@ -2,13 +2,24 @@ import fs from "fs/promises";
 import path from "path";
 import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 
-const UPLOAD_DIR = path.join(process.cwd(), "apps/api/data/uploads");
-const USE_S3 = process.env.USE_S3 === "1" || process.env.USE_S3 === "true";
-const S3_BUCKET = process.env.S3_BUCKET || "";
+const cwd = process.cwd();
+const UPLOAD_DIR = cwd.endsWith(path.join("apps", "api"))
+  ? path.join(cwd, "data", "uploads")
+  : path.join(cwd, "apps", "api", "data", "uploads");
+function isUseS3() {
+  return process.env.USE_S3 === "1" || process.env.USE_S3 === "true";
+}
+function getS3Bucket() {
+  return process.env.S3_BUCKET || "";
+}
 
 let s3Client: S3Client | null = null;
-if (USE_S3) {
+if (isUseS3()) {
   s3Client = new S3Client({ region: process.env.AWS_REGION });
+}
+
+export function setS3Client(client: S3Client | null) {
+  s3Client = client;
 }
 
 export async function ensureUploadDir() {
@@ -23,6 +34,7 @@ export async function saveFileLocal(code: string, buffer: Buffer, meta: Record<s
 }
 
 export async function saveFileS3(code: string, buffer: Buffer, meta: Record<string, unknown>) {
+  const S3_BUCKET = getS3Bucket();
   if (!s3Client || !S3_BUCKET) throw new Error("S3 not configured");
   await s3Client.send(
     new PutObjectCommand({ Bucket: S3_BUCKET, Key: code, Body: buffer, Metadata: { filename: String(meta.filename || code) } }),
@@ -34,7 +46,8 @@ export async function deleteFile(code: string) {
   const filePath = path.join(UPLOAD_DIR, code);
   const metaPath = path.join(UPLOAD_DIR, `${code}.meta.json`);
   try {
-    if (USE_S3 && s3Client && S3_BUCKET) {
+    const S3_BUCKET = getS3Bucket();
+    if (isUseS3() && s3Client && S3_BUCKET) {
       try {
         await s3Client.send(new DeleteObjectCommand({ Bucket: S3_BUCKET, Key: code }));
         await fs.unlink(metaPath).catch(() => {});
@@ -52,18 +65,22 @@ export async function deleteFile(code: string) {
       }
     }
   } catch (err: any) {
-    return { code, s3: USE_S3 === true, success: false, error: String(err.message ?? err) };
+    return { code, s3: isUseS3() === true, success: false, error: String(err.message ?? err) };
   }
 }
 
 export async function readFile(code: string) {
   const filePath = path.join(UPLOAD_DIR, code);
-  if (USE_S3 && s3Client && S3_BUCKET) {
+  const S3_BUCKET = getS3Bucket();
+  if (isUseS3() && s3Client && S3_BUCKET) {
     const out = await s3Client.send(new GetObjectCommand({ Bucket: S3_BUCKET, Key: code }));
+    // Body can be a stream/async iterable — coerce and guard
     // @ts-ignore
-    const stream = out.Body;
+    const stream = out.Body as AsyncIterable<Uint8Array> | undefined;
+    if (!stream) throw new Error('S3 object has empty body');
     const chunks: Buffer[] = [];
-    for await (const chunk of stream) chunks.push(Buffer.from(chunk));
+    // stream might not have correct TS type; iterate as any
+    for await (const chunk of stream as any) chunks.push(Buffer.from(chunk));
     return Buffer.concat(chunks);
   }
 

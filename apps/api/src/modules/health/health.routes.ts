@@ -64,7 +64,7 @@ export async function healthRoutes(server: FastifyInstance) {
     const details = getRedisStatus();
 
     if (!redisConnected) {
-      return reply.status(503).send({
+      return reply.code(503).send({
         status: "unavailable",
         redis: false,
         details,
