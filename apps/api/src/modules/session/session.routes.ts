@@ -15,6 +15,8 @@ import {
   getSessionMetadata,
   publishSessionEvent,
   refreshSessionTTL,
+  redis,
+  redisSubscriber,
   redisIsConnected,
   sessionExists,
   setSessionMetadata,
@@ -118,6 +120,19 @@ export async function sessionRoutes(server: FastifyInstance) {
       const expiresAt = new Date(Date.now() + (body.ttlSeconds ?? 86400) * 1000).toISOString();
 
       const createdAt = new Date().toISOString();
+      // Ensure Redis clients are connected before performing operations.
+      try {
+        if (redis.status !== "ready") {
+          await redis.connect();
+        }
+        if (redisSubscriber.status !== "ready") {
+          await redisSubscriber.connect();
+        }
+      } catch (err) {
+        server.log.error({ err, redis: redis.status, redisSubscriber: redisSubscriber.status }, "Failed to connect Redis clients");
+        return reply.status(503).send({ statusCode: 503, error: "Service Unavailable", message: "Redis unavailable" });
+      }
+
       await addSessionStreamEvent(code, {
         type: "session.created",
         code,
@@ -285,7 +300,16 @@ export async function sessionRoutes(server: FastifyInstance) {
 
   server.register(async (instance) => {
     instance.get("/ws/session/:code", { websocket: true }, (connection, request) => {
-      const { code } = request.params as { code: string };
+      const code = ((request.params as { code?: string } | undefined)?.code) ?? (() => {
+        const match = request.raw.url?.match(/\/ws\/session\/([^/?#]+)/);
+        return match?.[1];
+      })();
+
+      if (!code) {
+        connection.send(JSON.stringify({ type: "session.error", message: "Invalid session code." }));
+        connection.close();
+        return;
+      }
 
       let unsubscribe: (() => Promise<void>) | undefined;
       let closing = false;
@@ -305,23 +329,33 @@ export async function sessionRoutes(server: FastifyInstance) {
         }
       };
 
-      subscribeSessionChannel(code, (event: Record<string, unknown>) => {
+      console.log('WS route open', { code, params: request.params, rawUrl: request.raw.url, redisReady: redisIsConnected() });
+      const subscriptionPromise = subscribeSessionChannel(code, (event: Record<string, unknown>) => {
+        console.log('WS subscription event', event);
         sendJson({ type: "session.event", event });
       })
         .then((unsub: () => Promise<void>) => {
+          console.log('WS subscribe ready', code);
           unsubscribe = unsub;
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log('WS subscribe failed', err);
           sendJson({ type: "session.error", message: "Unable to subscribe to session channel." });
           connection.close();
         });
 
       connection.on("message", async (message: unknown) => {
         try {
+          console.log('WS message received', message);
+          await subscriptionPromise;
+
           const payload = JSON.parse((message as any).toString());
           const parsed = textUpdatePayloadSchema.safeParse(payload);
 
-          if (!parsed.success) return;
+          if (!parsed.success) {
+            console.log('WS payload invalid', payload);
+            return;
+          }
 
           const event = {
             type: "session.text.update",
@@ -331,19 +365,17 @@ export async function sessionRoutes(server: FastifyInstance) {
             createdAt: new Date().toISOString(),
           };
 
+          console.log('WS publish event', event);
           await addSessionStreamEvent(code, event);
           await publishSessionEvent(code, event);
-        } catch {
+        } catch (err) {
+          console.log('WS message error', err);
           // ignore invalid JSON or Redis failures
         }
       });
 
       connection.on("close", cleanup);
       connection.on("error", cleanup);
-
-      if (!redisIsConnected()) {
-        sendJson({ type: "session.error", message: "Redis is not available." });
-      }
     });
   });
 }
