@@ -67,6 +67,18 @@ export async function recreateRedisClients() {
   }
 }
 
+export async function ensureRedisClientsReady(): Promise<boolean> {
+  if (redis.status === "ready" && redisSubscriber.status === "ready") return true;
+
+  try {
+    if (redis.status !== "ready") await redis.connect();
+    if (redisSubscriber.status !== "ready") await redisSubscriber.connect();
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
 let consecutiveRedisFailures = 0;
 let circuitOpenUntil = 0;
 

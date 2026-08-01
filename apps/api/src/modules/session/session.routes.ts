@@ -20,6 +20,7 @@ import {
   redisIsConnected,
   sessionExists,
   setSessionMetadata,
+  ensureRedisClientsReady,
   subscribeSessionChannel,
 } from "../../shared/lib/redis.js";
 
@@ -120,16 +121,10 @@ export async function sessionRoutes(server: FastifyInstance) {
       const expiresAt = new Date(Date.now() + (body.ttlSeconds ?? 86400) * 1000).toISOString();
 
       const createdAt = new Date().toISOString();
-      // Ensure Redis clients are connected before performing operations.
-      try {
-        if (redis.status !== "ready") {
-          await redis.connect();
-        }
-        if (redisSubscriber.status !== "ready") {
-          await redisSubscriber.connect();
-        }
-      } catch (err) {
-        server.log.error({ err, redis: redis.status, redisSubscriber: redisSubscriber.status }, "Failed to connect Redis clients");
+      // Ensure Redis clients are ready via centralized helper.
+      const ready = await ensureRedisClientsReady();
+      if (!ready) {
+        server.log.error({ redis: redis.status, redisSubscriber: redisSubscriber.status }, "Redis clients are not ready");
         return reply.status(503).send({ statusCode: 503, error: "Service Unavailable", message: "Redis unavailable" });
       }
 
