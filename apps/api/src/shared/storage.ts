@@ -40,7 +40,13 @@ export async function saveFileS3(code: string, buffer: Buffer, meta: Record<stri
   await s3Client.send(
     new PutObjectCommand({ Bucket: S3_BUCKET, Key: code, Body: buffer, Metadata: { filename: String(meta.filename || code) } }),
   );
-  await redis.set(`file:${code}:meta`, JSON.stringify(meta));
+  const ttl = (meta.ttlSeconds as number) || 86400;
+  try {
+    await redis.set(`file:${code}:meta`, JSON.stringify(meta), 'EX', ttl + 86400);
+  } catch (err) {
+    console.error('Failed to save file metadata to Redis', { code, err });
+    throw new Error('Unable to save file metadata');
+  }
 }
 
 export async function deleteFile(code: string) {

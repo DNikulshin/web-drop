@@ -1,0 +1,994 @@
+This file is a merged representation of a subset of the codebase, containing specifically included files, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of a subset of the repository's contents that is considered the most important context.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Only files matching these patterns are included: apps/api/src/shared/storage.ts, apps/api/src/shared/lib/redis.ts, apps/api/src/modules/files/**, apps/api/src/shared/cleanupWorker.ts, apps/api/src/shared/metrics.ts
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+apps/
+  api/
+    src/
+      modules/
+        files/
+          files.e2e.test.ts
+          files.routes.test.ts
+          files.routes.ts
+          files.s3ws.e2e.test.ts
+      shared/
+        lib/
+          redis.ts
+        cleanupWorker.ts
+        metrics.ts
+        storage.ts
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="apps/api/src/modules/files/files.e2e.test.ts">
+import { describe, it, expect } from 'vitest';
+import Fastify from 'fastify';
+import { filesRoutes } from './files.routes.js';
+import { listExpired, deleteFile } from '../../shared/storage.js';
+
+function base64(str: string) {
+  return Buffer.from(str).toString('base64');
+}
+
+describe('Files E2E', () => {
+  it('upload -> download -> ttl cleanup', async () => {
+    const server = Fastify();
+    await server.register(filesRoutes as any);
+
+    const payload = { filename: 'e2e.txt', content: base64('e2e-content'), ttlSeconds: 1 };
+    const res = await server.inject({ method: 'POST', url: '/api/files', payload });
+    expect(res.statusCode).toBe(201);
+    const body = res.json();
+    expect(body).toHaveProperty('code');
+
+    const get1 = await server.inject({ method: 'GET', url: `/files/${body.code}` });
+    expect(get1.statusCode).toBe(200);
+    expect(get1.body).toBe('e2e-content');
+
+    // wait for TTL to expire
+    await new Promise((r) => setTimeout(r, 1500));
+
+    // run cleanup logic (simulate worker)
+    const expired = await listExpired();
+    for (const code of expired) {
+      await deleteFile(code);
+    }
+
+    const get2 = await server.inject({ method: 'GET', url: `/files/${body.code}` });
+    expect(get2.statusCode).toBe(404);
+
+    await server.close();
+  }, 10000);
+});
+</file>
+
+<file path="apps/api/src/modules/files/files.routes.test.ts">
+import { describe, it, expect } from "vitest";
+import Fastify from "fastify";
+import { filesRoutes } from "./files.routes.js";
+
+function base64(str: string) {
+  return Buffer.from(str).toString("base64");
+}
+
+describe("Files routes", () => {
+  it("should upload and download a file", async () => {
+    const server = Fastify();
+    await server.register(filesRoutes);
+
+    const payload = { filename: "hello.txt", content: base64("hello world"), ttlSeconds: 60 };
+    const res = await server.inject({ method: "POST", url: "/api/files", payload });
+    expect(res.statusCode).toBe(201);
+    const body = res.json();
+    expect(body).toHaveProperty("code");
+    expect(body).toHaveProperty("url");
+
+    const download = await server.inject({ method: "GET", url: body.url });
+    expect(download.statusCode).toBe(200);
+    expect(download.body).toBe("hello world");
+
+    await server.close();
+  });
+});
+</file>
+
+<file path="apps/api/src/modules/files/files.s3ws.e2e.test.ts">
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import Fastify from "fastify";
+import fastifyWebsocket from "@fastify/websocket";
+import { filesRoutes } from "./files.routes.js";
+import { sessionRoutes } from "../session/session.routes.js";
+import { setS3Client, listExpired, deleteFile } from "../../shared/storage.js";
+import {
+  PutObjectCommand,
+  GetObjectCommand,
+  DeleteObjectCommand,
+} from "@aws-sdk/client-s3";
+import { Readable } from "stream";
+
+// simple in-memory mock S3 client
+function createMockS3() {
+  const store = new Map();
+
+  return {
+    send: async (command: any) => {
+      const name = command.constructor.name;
+      if (name === "PutObjectCommand") {
+        const Key = command.input.Key;
+        let Body = command.input.Body;
+        if (typeof Body === "string") Body = Buffer.from(Body);
+        store.set(Key, {
+          buffer: Buffer.from(Body),
+          meta: command.input.Metadata || {},
+        });
+        return {};
+      }
+      if (name === "GetObjectCommand") {
+        const Key = command.input.Key;
+        const entry = store.get(Key);
+        if (!entry) throw new Error("NotFound");
+        return { Body: Readable.from([entry.buffer]) };
+      }
+      if (name === "DeleteObjectCommand") {
+        const Key = command.input.Key;
+        const had = store.delete(Key);
+        return {};
+      }
+      return {};
+    },
+  };
+}
+
+describe("S3 + WebSocket E2E", () => {
+  beforeEach(() => {
+    process.env.USE_S3 = "true";
+    process.env.S3_BUCKET = "test-bucket";
+    process.env.AWS_REGION = "us-east-1";
+    setS3Client(createMockS3() as any);
+  });
+  afterEach(() => {
+    process.env.USE_S3 = "false";
+    setS3Client(null);
+  });
+
+  it("S3 upload -> download -> cleanup", async () => {
+    const server = Fastify();
+    await server.register(filesRoutes as any);
+
+    const payload = {
+      filename: "s3.txt",
+      content: Buffer.from("s3-content").toString("base64"),
+      ttlSeconds: 1,
+    };
+    const res = await server.inject({
+      method: "POST",
+      url: "/api/files",
+      payload,
+    });
+    expect(res.statusCode).toBe(201);
+    const body = res.json();
+    const get1 = await server.inject({
+      method: "GET",
+      url: `/files/${body.code}`,
+    });
+    expect(get1.statusCode).toBe(200);
+    expect(get1.body).toBe("s3-content");
+
+    // Verify metadata exists in Redis
+    const meta = await server.inject({
+      method: "GET",
+      url: `/api/files/${body.code}/meta`,
+    });
+    expect(meta.statusCode).toBe(200);
+    expect(meta.json()).toMatchObject({ filename: "s3.txt" });
+    await new Promise((r) => setTimeout(r, 1500));
+    const expired = await listExpired();
+    expect(expired).toContain(body.code);
+    for (const code of expired) {
+      await deleteFile(code);
+    }
+
+    const get2 = await server.inject({
+      method: "GET",
+      url: `/files/${body.code}`,
+    });
+    expect(get2.statusCode).toBe(404);
+
+    // Verify metadata was deleted from Redis
+    const metaAfter = await server.inject({
+      method: "GET",
+      url: `/api/files/${body.code}/meta`,
+    });
+    expect(metaAfter.statusCode).toBe(404);
+
+    await server.close();
+  }, 10000);
+
+  it("WebSocket session sync (E2E)", async () => {
+    const server = Fastify();
+    await server.register(fastifyWebsocket as any);
+    await server.register(sessionRoutes as any);
+
+    await server.listen({ port: 0, host: "127.0.0.1" });
+    const address = server.server.address();
+    const port = (address as any).port;
+
+    const createRes = await server.inject({
+      method: "POST",
+      url: "/api/sessions",
+      payload: {},
+    });
+    expect(createRes.statusCode).toBe(201);
+    const { code } = createRes.json();
+    expect(code).toBeTruthy();
+
+    // open ws client
+    const wsUrl = `ws://127.0.0.1:${port}/ws/session/${code}`;
+    const WebSocket = (await import("ws")).default;
+
+    const msg = await new Promise((resolve, reject) => {
+      const ws = new WebSocket(wsUrl);
+      const timeout = setTimeout(() => reject(new Error("timeout")), 2000);
+      ws.on("open", () => {
+        ws.send(
+          JSON.stringify({ type: "session.text.update", data: "hello e2e" }),
+        );
+      });
+      ws.on("message", (data) => {
+        clearTimeout(timeout);
+        resolve(JSON.parse(data.toString()));
+        ws.close();
+      });
+      ws.on("error", reject);
+    });
+
+    expect(msg).toHaveProperty("type");
+    expect((msg as any).type).toBe("session.event");
+
+    await server.close();
+  }, 10000);
+});
+</file>
+
+<file path="apps/api/src/shared/cleanupWorker.ts">
+import { FastifyInstance } from 'fastify';
+import { listExpired, deleteFile } from './storage.js';
+import { cleanupBatches, fileDeletionsTotal, fileDeletionErrorsTotal, s3DeletionsTotal, s3DeletionErrorsTotal } from './metrics.js';
+
+function sleep(ms: number) {
+  return new Promise((res) => setTimeout(res, ms));
+}
+
+export function startCleanupWorker(server: FastifyInstance, options?: { batchSize?: number; intervalMs?: number }) {
+  const batchSize = options?.batchSize ?? 20;
+  const intervalMs = options?.intervalMs ?? 60 * 1000;
+  let stopped = false;
+  let running = false;
+
+  const loop = async () => {
+    running = true;
+    while (!stopped) {
+      try {
+        const expired = await listExpired();
+        if (expired.length > 0) {
+          server.log.info({ count: expired.length }, 'Found expired uploads');
+          // process in batches
+          for (let i = 0; i < expired.length; i += batchSize) {
+            const batch = expired.slice(i, i + batchSize);
+            cleanupBatches.inc();
+            await Promise.all(
+              batch.map(async (code) => {
+                try {
+                  const result = await deleteFile(code);
+                  if (result.s3) {
+                    if (result.success) s3DeletionsTotal.inc();
+                    else s3DeletionErrorsTotal.inc();
+                  } else {
+                    if (result.success) fileDeletionsTotal.inc();
+                    else fileDeletionErrorsTotal.inc();
+                  }
+                  server.log.info({ code, result }, 'Deleted expired upload');
+                } catch (err) {
+                  fileDeletionErrorsTotal.inc();
+                  server.log.error({ code, err }, 'Error deleting expired upload');
+                }
+              }),
+            );
+            await sleep(500);
+          }
+        }
+      } catch (err) {
+        server.log.error({ err }, 'Cleanup worker error');
+      }
+
+      // wait before next poll
+      let waited = 0;
+      while (!stopped && waited < intervalMs) {
+        await sleep(500);
+        waited += 500;
+      }
+    }
+    running = false;
+  };
+
+  loop();
+
+  return async function stop() {
+    stopped = true;
+    while (running) {
+      await sleep(200);
+    }
+  };
+}
+</file>
+
+<file path="apps/api/src/shared/metrics.ts">
+import client from 'prom-client';
+
+const register = new client.Registry();
+client.collectDefaultMetrics({ register });
+
+export const fileDeletionsTotal = new client.Counter({
+  name: 'webdrop_file_deletions_total',
+  help: 'Number of file deletions completed',
+});
+export const fileDeletionErrorsTotal = new client.Counter({
+  name: 'webdrop_file_deletion_errors_total',
+  help: 'Number of file deletion errors',
+});
+export const s3DeletionsTotal = new client.Counter({
+  name: 'webdrop_s3_deletions_total',
+  help: 'Number of S3 deletions completed',
+});
+export const s3DeletionErrorsTotal = new client.Counter({
+  name: 'webdrop_s3_deletion_errors_total',
+  help: 'Number of S3 deletion errors',
+});
+export const cleanupBatches = new client.Counter({
+  name: 'webdrop_cleanup_batches_total',
+  help: 'Number of cleanup batches processed',
+});
+
+register.registerMetric(fileDeletionsTotal);
+register.registerMetric(fileDeletionErrorsTotal);
+register.registerMetric(s3DeletionsTotal);
+register.registerMetric(s3DeletionErrorsTotal);
+register.registerMetric(cleanupBatches);
+
+export function getMetrics() {
+  return register.metrics();
+}
+</file>
+
+<file path="apps/api/src/modules/files/files.routes.ts">
+/** Recreated file content */
+
+import { FastifyInstance } from "fastify";
+import { nanoid } from "nanoid";
+import fs from "fs/promises";
+import path from "path";
+import { ensureUploadDir, saveFileLocal, saveFileS3, readFile, readMeta } from "../../shared/storage.js";
+
+export async function filesRoutes(server: FastifyInstance) {
+  await ensureUploadDir();
+
+  server.post(
+    "/api/files",
+    {
+      schema: {
+        summary: "Upload a file (base64 payload)",
+        body: {
+          type: "object",
+          properties: {
+            filename: { type: "string" },
+            content: { type: "string", description: "Base64-encoded file content" },
+            ttlSeconds: { type: "integer" },
+          },
+          required: ["filename", "content"],
+        },
+        response: {
+          201: {
+            type: "object",
+            properties: {
+              code: { type: "string" },
+              url: { type: "string" },
+              expiresAt: { type: "string", format: "date-time" },
+            },
+            required: ["code", "url", "expiresAt"],
+          },
+        },
+      },
+    },
+    async (request, reply) => {
+      const body = request.body as { filename: string; content: string; ttlSeconds?: number };
+      const code = nanoid(8);
+
+      try {
+        const buffer = Buffer.from(body.content, "base64");
+        const ttl = body.ttlSeconds ?? 60 * 60 * 24; // default 1 day
+        const expiresAt = new Date(Date.now() + ttl * 1000).toISOString();
+        const meta = { filename: body.filename, size: buffer.length, expiresAt };
+
+        if (process.env.USE_S3 === "1" || process.env.USE_S3 === "true") {
+          await saveFileS3(code, buffer, meta);
+        } else {
+          await saveFileLocal(code, buffer, meta);
+        }
+
+        const url = `/files/${code}`;
+        return reply.code(201).send({ code, url, expiresAt });
+      } catch (err) {
+        server.log.error(err);
+        return (reply as any).code(500).send({ statusCode: 500, error: "Internal Server Error", message: "Unable to save file" });
+      }
+    },
+  );
+
+  // multipart upload route
+  server.post(
+    "/api/files/multipart",
+    { config: { multipart: true } },
+    async (request, reply) => {
+      const parts = request.parts();
+      const code = nanoid(8);
+      let filename = code;
+      let buffer = Buffer.alloc(0);
+      let ttl = 60 * 60 * 24;
+
+      for await (const part of parts) {
+        if (part.type === "file") {
+          filename = part.filename || filename;
+          const chunks: Buffer[] = [];
+          for await (const chunk of part.file) chunks.push(Buffer.from(chunk));
+          buffer = Buffer.concat(chunks);
+        } else if (part.type === "field") {
+          if (part.fieldname === "ttlSeconds") ttl = Number(part.value) || ttl;
+        }
+      }
+
+      try {
+        const expiresAt = new Date(Date.now() + ttl * 1000).toISOString();
+        const meta = { filename, size: buffer.length, expiresAt };
+        if (process.env.USE_S3 === "1" || process.env.USE_S3 === "true") {
+          await saveFileS3(code, buffer, meta);
+        } else {
+          await saveFileLocal(code, buffer, meta);
+        }
+        return reply.code(201).send({ code, url: `/files/${code}`, expiresAt });
+      } catch (err) {
+        server.log.error(err);
+        return (reply as any).code(500).send({ statusCode: 500, error: "Internal Server Error", message: "Unable to save file" });
+      }
+    },
+  );
+
+  server.get(
+    "/files/:code",
+    {
+      schema: {
+        params: { type: "object", properties: { code: { type: "string" } }, required: ["code"] },
+      },
+    },
+    async (request, reply) => {
+      const { code } = request.params as { code: string };
+
+      try {
+        const meta = (await readMeta(code)) || { filename: code };
+
+        // Try reading via storage abstraction (which handles local or S3)
+        try {
+          const buffer = await readFile(code);
+          reply.header("content-disposition", `attachment; filename="${meta.filename}"`);
+          return reply.send(buffer);
+        } catch (err) {
+          // not found or other read error -> 404
+          return reply.code(404).send({ status: "error", message: "File not found" });
+        }
+      } catch (err) {
+        server.log.error(err);
+        return (reply as any).code(500).send({ statusCode: 500, error: "Internal Server Error", message: "Unable to read file" });
+      }
+    },
+  );
+}
+</file>
+
+<file path="apps/api/src/shared/storage.ts">
+import fs from "fs/promises";
+import path from "path";
+import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+import { redis } from "./lib/redis.js";
+
+const cwd = process.cwd();
+const UPLOAD_DIR = cwd.endsWith(path.join("apps", "api"))
+  ? path.join(cwd, "data", "uploads")
+  : path.join(cwd, "apps", "api", "data", "uploads");
+function isUseS3() {
+  return process.env.USE_S3 === "1" || process.env.USE_S3 === "true";
+}
+function getS3Bucket() {
+  return process.env.S3_BUCKET || "";
+}
+
+let s3Client: S3Client | null = null;
+if (isUseS3()) {
+  s3Client = new S3Client({ region: process.env.AWS_REGION });
+}
+
+export function setS3Client(client: S3Client | null) {
+  s3Client = client;
+}
+
+export async function ensureUploadDir() {
+  await fs.mkdir(UPLOAD_DIR, { recursive: true });
+}
+
+export async function saveFileLocal(code: string, buffer: Buffer, meta: Record<string, unknown>) {
+  const filePath = path.join(UPLOAD_DIR, code);
+  const metaPath = path.join(UPLOAD_DIR, `${code}.meta.json`);
+  await fs.writeFile(filePath, buffer);
+  await fs.writeFile(metaPath, JSON.stringify(meta));
+}
+
+export async function saveFileS3(code: string, buffer: Buffer, meta: Record<string, unknown>) {
+  const S3_BUCKET = getS3Bucket();
+  if (!s3Client || !S3_BUCKET) throw new Error("S3 not configured");
+  await s3Client.send(
+    new PutObjectCommand({ Bucket: S3_BUCKET, Key: code, Body: buffer, Metadata: { filename: String(meta.filename || code) } }),
+  );
+  await redis.set(`file:${code}:meta`, JSON.stringify(meta));
+}
+
+export async function deleteFile(code: string) {
+  const filePath = path.join(UPLOAD_DIR, code);
+  const metaPath = path.join(UPLOAD_DIR, `${code}.meta.json`);
+  try {
+    const S3_BUCKET = getS3Bucket();
+    if (isUseS3() && s3Client && S3_BUCKET) {
+      try {
+        await s3Client.send(new DeleteObjectCommand({ Bucket: S3_BUCKET, Key: code }));
+        await redis.del(`file:${code}:meta`).catch(() => {});
+        return { code, s3: true, success: true };
+      } catch (err: any) {
+        return { code, s3: true, success: false, error: String(err.message ?? err) };
+      }
+    } else {
+      try {
+        await fs.unlink(filePath).catch(() => {});
+        await fs.unlink(metaPath).catch(() => {});
+        return { code, s3: false, success: true };
+      } catch (err: any) {
+        return { code, s3: false, success: false, error: String(err.message ?? err) };
+      }
+    }
+  } catch (err: any) {
+    return { code, s3: isUseS3() === true, success: false, error: String(err.message ?? err) };
+  }
+}
+
+export async function readFile(code: string) {
+  const filePath = path.join(UPLOAD_DIR, code);
+  const S3_BUCKET = getS3Bucket();
+  if (isUseS3() && s3Client && S3_BUCKET) {
+    const out = await s3Client.send(new GetObjectCommand({ Bucket: S3_BUCKET, Key: code }));
+    // Body can be a stream/async iterable — coerce and guard
+    // @ts-ignore
+    const stream = out.Body as AsyncIterable<Uint8Array> | undefined;
+    if (!stream) throw new Error('S3 object has empty body');
+    const chunks: Buffer[] = [];
+    // stream might not have correct TS type; iterate as any
+    for await (const chunk of stream as any) chunks.push(Buffer.from(chunk));
+    return Buffer.concat(chunks);
+  }
+
+  return fs.readFile(filePath);
+}
+
+export async function readMeta(code: string) {
+  if (isUseS3()) {
+    try {
+      const raw = await redis.get(`file:${code}:meta`);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  }
+
+  const metaPath = path.join(UPLOAD_DIR, `${code}.meta.json`);
+  try {
+    const raw = await fs.readFile(metaPath, "utf-8");
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+export async function listExpired() {
+  if (isUseS3()) {
+    const expired: string[] = [];
+    let cursor = '0';
+    do {
+      const [newCursor, keys] = await redis.scan(cursor, 'MATCH', 'file:*:meta');
+      cursor = newCursor;
+      
+      for (const key of keys) {
+        const raw = await redis.get(key);
+        if (!raw) continue;
+        try {
+          const meta = JSON.parse(raw);
+          if (meta.expiresAt && new Date(meta.expiresAt).getTime() < Date.now()) {
+            const code = key.replace(/^file:(.*):meta$/, '$1');
+            expired.push(code);
+          }
+        } catch {
+          continue;
+        }
+      }
+    } while (cursor !== '0');
+    return expired;
+  }
+
+  await ensureUploadDir();
+  const files = await fs.readdir(UPLOAD_DIR);
+  const expired: string[] = [];
+  for (const f of files) {
+    if (!f.endsWith(".meta.json")) continue;
+    const code = f.replace(/\.meta\.json$/, "");
+    const meta = await readMeta(code);
+    if (!meta) continue;
+    if (meta.expiresAt && new Date(meta.expiresAt).getTime() < Date.now()) {
+      expired.push(code);
+    }
+  }
+  return expired;
+}
+</file>
+
+<file path="apps/api/src/shared/lib/redis.ts">
+import { Redis } from "ioredis";
+
+const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
+const REDIS_CIRCUIT_BREAKER_FAIL_THRESHOLD = Number(
+  process.env.REDIS_CIRCUIT_BREAKER_FAIL_THRESHOLD ?? 3,
+);
+const REDIS_CIRCUIT_BREAKER_OPEN_MS = Number(
+  process.env.REDIS_CIRCUIT_BREAKER_OPEN_MS ?? 10000,
+);
+
+const globalForRedis = globalThis as unknown as {
+  redis: Redis;
+  redisSubscriber: Redis;
+};
+
+export let redis: Redis =
+  globalForRedis.redis ||
+  new Redis(REDIS_URL, {
+    maxRetriesPerRequest: null,
+    lazyConnect: true,
+    retryStrategy: (times) => Math.min(times * 100, 3000),
+  });
+
+export let redisSubscriber: Redis =
+  globalForRedis.redisSubscriber ||
+  new Redis(REDIS_URL, {
+    maxRetriesPerRequest: null,
+    lazyConnect: true,
+  });
+
+export const INSTANCE_ID =
+  process.env.INSTANCE_ID ||
+  `instance-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
+if (process.env.NODE_ENV !== "production") {
+  globalForRedis.redis = redis;
+  globalForRedis.redisSubscriber = redisSubscriber;
+}
+
+export async function recreateRedisClients() {
+  try {
+    await redis.disconnect();
+  } catch (_) {
+    // ignore
+  }
+
+  try {
+    await redisSubscriber.disconnect();
+  } catch (_) {
+    // ignore
+  }
+
+  redis = new Redis(REDIS_URL, {
+    maxRetriesPerRequest: null,
+    lazyConnect: true,
+    retryStrategy: (times) => Math.min(times * 100, 3000),
+  });
+
+  redisSubscriber = new Redis(REDIS_URL, {
+    maxRetriesPerRequest: null,
+    lazyConnect: true,
+  });
+
+  if (process.env.NODE_ENV !== "production") {
+    globalForRedis.redis = redis;
+    globalForRedis.redisSubscriber = redisSubscriber;
+  }
+}
+
+export async function ensureRedisClientsReady(): Promise<boolean> {
+  if (redis.status === "ready" && redisSubscriber.status === "ready") return true;
+
+  try {
+    if (redis.status !== "ready") await redis.connect();
+    if (redisSubscriber.status !== "ready") await redisSubscriber.connect();
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
+let consecutiveRedisFailures = 0;
+let circuitOpenUntil = 0;
+
+function isCircuitOpen() {
+  return circuitOpenUntil > Date.now();
+}
+
+function recordRedisSuccess() {
+  consecutiveRedisFailures = 0;
+  circuitOpenUntil = 0;
+}
+
+function recordRedisFailure() {
+  consecutiveRedisFailures += 1;
+  if (consecutiveRedisFailures >= REDIS_CIRCUIT_BREAKER_FAIL_THRESHOLD) {
+    circuitOpenUntil = Date.now() + REDIS_CIRCUIT_BREAKER_OPEN_MS;
+  }
+}
+
+async function withRedisOperation<T>(operation: () => Promise<T>) {
+  if (isCircuitOpen()) {
+    throw new Error("Redis circuit breaker is open");
+  }
+
+  if (redis.status !== "ready" && redis.status !== "connecting") {
+    await redis.connect();
+  }
+
+  try {
+    const result = await operation();
+    recordRedisSuccess();
+    return result;
+  } catch (err) {
+    recordRedisFailure();
+    throw err;
+  }
+}
+
+export function getSessionStreamKey(code: string) {
+  return `session:${code}:stream`;
+}
+
+export function getSessionChannel(code: string) {
+  return `session:${code}:channel`;
+}
+
+export function getSessionGroupName(code: string) {
+  return `session:${code}:group`;
+}
+
+export function getSessionMetaKey(code: string) {
+  return `session:${code}:meta`;
+}
+
+export async function ensureConsumerGroup(
+  streamKey: string,
+  groupName: string,
+) {
+  return withRedisOperation(async () => {
+    try {
+      await redis.xgroup("CREATE", streamKey, groupName, "$", "MKSTREAM");
+    } catch (err: any) {
+      if (!err.message.includes("BUSYGROUP")) {
+        throw err;
+      }
+    }
+  });
+}
+
+export async function setSessionMetadata(
+  code: string,
+  metadata: { createdAt: string; ttlSeconds: number; expiresAt: string },
+) {
+  const metaKey = getSessionMetaKey(code);
+  const streamKey = getSessionStreamKey(code);
+  const ttlSeconds = metadata.ttlSeconds;
+
+  return withRedisOperation(async () => {
+    await redis.set(metaKey, JSON.stringify(metadata), "EX", ttlSeconds);
+    await redis.expire(streamKey, ttlSeconds);
+  });
+}
+
+export async function getSessionMetadata(code: string) {
+  const metaKey = getSessionMetaKey(code);
+  const raw = await withRedisOperation(async () => redis.get(metaKey));
+  if (!raw) return null;
+
+  try {
+    return JSON.parse(raw) as { createdAt: string; ttlSeconds: number; expiresAt: string };
+  } catch {
+    return null;
+  }
+}
+
+export async function refreshSessionTTL(code: string) {
+  const metadata = await getSessionMetadata(code);
+  if (!metadata) return;
+
+  const metaKey = getSessionMetaKey(code);
+  const streamKey = getSessionStreamKey(code);
+  const ttlSeconds = metadata.ttlSeconds;
+
+  return withRedisOperation(async () => {
+    await redis.expire(streamKey, ttlSeconds);
+    await redis.expire(metaKey, ttlSeconds);
+  });
+}
+
+export async function sessionExists(code: string) {
+  const metaKey = getSessionMetaKey(code);
+  return withRedisOperation(async () => (await redis.exists(metaKey)) > 0);
+}
+
+export async function deleteSession(code: string) {
+  const metaKey = getSessionMetaKey(code);
+  const streamKey = getSessionStreamKey(code);
+  return withRedisOperation(async () => {
+    await redis.del(streamKey, metaKey);
+  });
+}
+
+export async function addSessionStreamEvent(
+  code: string,
+  event: Record<string, unknown>,
+) {
+  const streamKey = getSessionStreamKey(code);
+  return withRedisOperation(async () => {
+    await redis.xadd(streamKey, "*", "event", JSON.stringify(event));
+  });
+}
+
+export async function publishSessionEvent(
+  code: string,
+  event: Record<string, unknown>,
+) {
+  const channel = getSessionChannel(code);
+  return withRedisOperation(async () => {
+    await redis.publish(channel, JSON.stringify(event));
+  });
+}
+
+export async function getSessionStreamEvents(
+  code: string,
+  options?: { count?: number; reverse?: boolean },
+) {
+  const streamKey = getSessionStreamKey(code);
+  const count = options?.count ?? 100;
+
+  return withRedisOperation(async () => {
+    const rawEvents = options?.reverse
+      ? await redis.xrevrange(streamKey, "+", "-", "COUNT", count)
+      : await redis.xrange(streamKey, "-", "+", "COUNT", count);
+
+    return rawEvents.map(([id, fields]) => {
+      const eventIndex = fields.findIndex((field) => field === "event");
+      const rawPayload = eventIndex >= 0 ? fields[eventIndex + 1] : null;
+      let event: Record<string, unknown> = {};
+
+      if (rawPayload) {
+        try {
+          event = JSON.parse(rawPayload as string) as Record<string, unknown>;
+        } catch {
+          event = { raw: rawPayload };
+        }
+      }
+
+      return { id, event };
+    });
+  });
+}
+
+export async function subscribeSessionChannel(
+  code: string,
+  onMessage: (event: Record<string, unknown>) => void,
+) {
+  const channel = getSessionChannel(code);
+  const subscriber = new Redis(REDIS_URL, {
+    maxRetriesPerRequest: null,
+    lazyConnect: true,
+  });
+
+  await withRedisOperation(async () => {
+    await subscriber.connect();
+    await subscriber.subscribe(channel);
+  });
+
+  const listener = (channelName: string, message: string) => {
+    if (channelName !== channel) return;
+    try {
+      const event = JSON.parse(message) as Record<string, unknown>;
+      onMessage(event);
+    } catch {
+      // ignore malformed messages
+    }
+  };
+
+  subscriber.on("message", listener);
+
+  return async () => {
+    subscriber.off("message", listener);
+    await subscriber.unsubscribe(channel);
+    await subscriber.disconnect();
+  };
+}
+
+export function redisIsConnected() {
+  return (
+    !isCircuitOpen() &&
+    redis.status === "ready" &&
+    redisSubscriber.status === "ready"
+  );
+}
+
+export function getRedisStatus() {
+  return {
+    redis: redis.status,
+    subscriber: redisSubscriber.status,
+    circuitOpen: isCircuitOpen(),
+    openUntil: circuitOpenUntil,
+  };
+}
+</file>
+
+</files>
