@@ -74,8 +74,22 @@ async function migrateFiles() {
       if (!raw) continue;
       try {
         const meta = JSON.parse(raw);
-        // Пока пропускаем файлы (этап 3)
-        console.log(`File ${code} skipped (requires session relation)`);
+        const existing = await prisma.file.findUnique({ where: { code } });
+        if (existing) {
+          console.log(`File ${code} already exists, skipping`);
+          continue;
+        }
+        await prisma.file.create({
+          data: {
+            code,
+            filename: meta.filename,
+            size: meta.size,
+            expiresAt: new Date(meta.expiresAt),
+            sessionId: null,
+          },
+        });
+        count++;
+        console.log(`Migrated file ${code}`);
       } catch (err) {
         console.error(`Error migrating file ${code}:`, err);
       }

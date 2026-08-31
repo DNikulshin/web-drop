@@ -1,6 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+import { prisma } from "@web-drop/db";
 import { redis } from "./lib/redis.js";
 
 const cwd = process.cwd();
@@ -32,6 +33,17 @@ export async function saveFileLocal(code: string, buffer: Buffer, meta: Record<s
   const metaPath = path.join(UPLOAD_DIR, `${code}.meta.json`);
   await fs.writeFile(filePath, buffer);
   await fs.writeFile(metaPath, JSON.stringify(meta));
+  await prisma.file.create({
+    data: {
+      code,
+      filename: String(meta.filename || code),
+      size: buffer.length,
+      expiresAt: new Date(meta.expiresAt as string),
+      sessionId: null,
+    },
+  }).catch((err) => {
+    console.error("Failed to save file metadata to Postgres", { code, err });
+  });
 }
 
 export async function saveFileS3(code: string, buffer: Buffer, meta: Record<string, unknown>) {
@@ -40,13 +52,18 @@ export async function saveFileS3(code: string, buffer: Buffer, meta: Record<stri
   await s3Client.send(
     new PutObjectCommand({ Bucket: S3_BUCKET, Key: code, Body: buffer, Metadata: { filename: String(meta.filename || code) } }),
   );
-  const ttl = (meta.ttlSeconds as number) || 86400;
-  try {
-    await redis.set(`file:${code}:meta`, JSON.stringify(meta), 'EX', ttl + 86400);
-  } catch (err) {
-    console.error('Failed to save file metadata to Redis', { code, err });
-    throw new Error('Unable to save file metadata');
-  }
+  await prisma.file.create({
+    data: {
+      code,
+      filename: String(meta.filename || code),
+      size: buffer.length,
+      expiresAt: new Date(meta.expiresAt as string),
+      sessionId: null,
+    },
+  }).catch((err) => {
+    console.error("Failed to save file metadata to Postgres", { code, err });
+    throw new Error("Unable to save file metadata");
+  });
 }
 
 export async function deleteFile(code: string) {
@@ -57,7 +74,7 @@ export async function deleteFile(code: string) {
     if (isUseS3() && s3Client && S3_BUCKET) {
       try {
         await s3Client.send(new DeleteObjectCommand({ Bucket: S3_BUCKET, Key: code }));
-        await redis.del(`file:${code}:meta`).catch(() => {});
+        await prisma.file.delete({ where: { code } }).catch(() => {});
         return { code, s3: true, success: true };
       } catch (err: any) {
         return { code, s3: true, success: false, error: String(err.message ?? err) };
@@ -66,6 +83,7 @@ export async function deleteFile(code: string) {
       try {
         await fs.unlink(filePath).catch(() => {});
         await fs.unlink(metaPath).catch(() => {});
+        await prisma.file.delete({ where: { code } }).catch(() => {});
         return { code, s3: false, success: true };
       } catch (err: any) {
         return { code, s3: false, success: false, error: String(err.message ?? err) };
@@ -97,8 +115,8 @@ export async function readFile(code: string) {
 export async function readMeta(code: string) {
   if (isUseS3()) {
     try {
-      const raw = await redis.get(`file:${code}:meta`);
-      return raw ? JSON.parse(raw) : null;
+      const file = await prisma.file.findUnique({ where: { code } });
+      return file ? { filename: file.filename, size: file.size, expiresAt: file.expiresAt.toISOString() } : null;
     } catch {
       return null;
     }
@@ -115,27 +133,11 @@ export async function readMeta(code: string) {
 
 export async function listExpired() {
   if (isUseS3()) {
-    const expired: string[] = [];
-    let cursor = '0';
-    do {
-      const [newCursor, keys] = await redis.scan(cursor, 'MATCH', 'file:*:meta');
-      cursor = newCursor;
-      
-      for (const key of keys) {
-        const raw = await redis.get(key);
-        if (!raw) continue;
-        try {
-          const meta = JSON.parse(raw);
-          if (meta.expiresAt && new Date(meta.expiresAt).getTime() < Date.now()) {
-            const code = key.replace(/^file:(.*):meta$/, '$1');
-            expired.push(code);
-          }
-        } catch {
-          continue;
-        }
-      }
-    } while (cursor !== '0');
-    return expired;
+    const expired = await prisma.file.findMany({
+      where: { expiresAt: { lt: new Date() } },
+      select: { code: true },
+    });
+    return expired.map(f => f.code);
   }
 
   await ensureUploadDir();

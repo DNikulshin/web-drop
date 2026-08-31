@@ -43,12 +43,14 @@ model Message {
 
 model File {
   id            String   @id @default(cuid())
-  sessionId     String
-  session       Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  s3Key         String
-  originalName  String
+  code          String   @unique
+  sessionId     String?
+  session       Session? @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  s3Key         String?
+  originalName  String?
+  filename      String
   size          Int
-  mimeType      String
+  mimeType      String?
   encrypted     Boolean  @default(true)
   downloadCount Int      @default(0)
   maxDownloads  Int?
