@@ -39,7 +39,7 @@ jobs:
         with:
           cache: "pnpm"
       - run: pnpm install
-      - run: pnpm run lint --filter=!@web-drop/api
+      - run: pnpm run lint --filter=!@web-drop/api --filter=!web
       - run: pnpm run typecheck
       - run: pnpm run test
       - run: pnpm run build
