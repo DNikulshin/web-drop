@@ -41,7 +41,7 @@ export default function Home() {
       setState("ready");
       setMessage(`Session created: ${data.code}`);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       setState("idle");
       setMessage("Failed to create session");
     }

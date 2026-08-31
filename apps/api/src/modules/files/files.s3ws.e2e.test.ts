@@ -4,11 +4,7 @@ import fastifyWebsocket from "@fastify/websocket";
 import { filesRoutes } from "./files.routes.js";
 import { sessionRoutes } from "../session/session.routes.js";
 import { setS3Client, listExpired, deleteFile } from "../../shared/storage.js";
-// import {
-//   PutObjectCommand,
-//   GetObjectCommand,
-//   DeleteObjectCommand,
-// } from "@aws-sdk/client-s3";
+
 import { Readable } from "stream";
 
 // simple in-memory mock S3 client

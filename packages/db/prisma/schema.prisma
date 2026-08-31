@@ -12,6 +12,7 @@ model Session {
   code      String   @unique
   createdAt DateTime @default(now())
   expiresAt DateTime
+  ttlSeconds Int?    // Add this line
   devices   Device[]
   messages  Message[]
   files     File[]
