@@ -2,9 +2,7 @@
 
 import { FastifyInstance } from "fastify";
 import { nanoid } from "nanoid";
-import fs from "fs/promises";
-import path from "path";
-import { ensureUploadDir, saveFileLocal, saveFileS3, readFile, readMeta } from "../../shared/storage.js";
+import { saveFileLocal, saveFileS3, readFile, readMeta, ensureUploadDir } from "../../shared/storage.js";
 
 export async function filesRoutes(server: FastifyInstance) {
   await ensureUploadDir();
@@ -118,7 +116,7 @@ export async function filesRoutes(server: FastifyInstance) {
           reply.header("content-disposition", `attachment; filename="${meta.filename}"`);
           return reply.send(buffer);
         } catch (err) {
-          // not found or other read error -> 404
+          console.log(err)
           return reply.code(404).send({ status: "error", message: "File not found" });
         }
       } catch (err) {

@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeAll, afterAll } from "vitest";
-import { Redis } from "ioredis";
+
 import {
   redis,
   redisSubscriber,
@@ -45,7 +45,7 @@ describe("Redis utilities", () => {
 
   it("should publish and subscribe to a session channel", async () => {
     const code = `test-${Date.now()}-pubsub`;
-    const channel = getSessionChannel(code);
+
     const expectedMessage = { type: "session.test", code, payload: "data" };
 
     const unsubscribe = await subscribeSessionChannel(code, (event) => {

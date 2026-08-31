@@ -8,7 +8,7 @@
     "start": "node dist/server.js",
     "test": "vitest run",
     "test:watch": "vitest",
-    "lint": "echo \"Lint for @web-drop/api is temporarily disabled due to TS7 incompatibility\""
+    "lint": "oxlint"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1101.0",

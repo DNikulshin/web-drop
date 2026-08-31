@@ -1,0 +1,25 @@
+{
+  "$schema": "https://oxc.rs/schema.json",
+  "rules": {
+    "eqeqeq": "warn",
+    "no-unused-vars": "warn",
+    "no-console": "warn",
+    "curly": "warn",
+    "no-var": "error",
+    "prefer-const": "warn",
+    "no-undef": "error",
+    "no-constant-binary-expression": "error",
+    "no-extra-boolean-cast": "warn",
+    "no-empty": "warn"
+  },
+  "ignorePatterns": [
+    "node_modules/**",
+    "dist/**",
+    "build/**",
+    ".next/**",
+    "coverage/**",
+    "*.d.ts",
+    "packages/db/src/generated/**",
+    "apps/api/data/**"
+  ]
+}

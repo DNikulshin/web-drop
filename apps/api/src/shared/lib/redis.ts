@@ -40,14 +40,14 @@ if (process.env.NODE_ENV !== "production") {
 export async function recreateRedisClients() {
   try {
     await redis.disconnect();
-  } catch (_) {
-    // ignore
+  } catch (err) {
+    console.log(err);
   }
 
   try {
     await redisSubscriber.disconnect();
-  } catch (_) {
-    // ignore
+  } catch (err) {
+    console.log(err);
   }
 
   redis = new Redis(REDIS_URL, {
@@ -68,13 +68,15 @@ export async function recreateRedisClients() {
 }
 
 export async function ensureRedisClientsReady(): Promise<boolean> {
-  if (redis.status === "ready" && redisSubscriber.status === "ready") return true;
+  if (redis.status === "ready" && redisSubscriber.status === "ready")
+    return true;
 
   try {
     if (redis.status !== "ready") await redis.connect();
     if (redisSubscriber.status !== "ready") await redisSubscriber.connect();
     return true;
   } catch (err) {
+    console.log(err)
     return false;
   }
 }
@@ -168,7 +170,11 @@ export async function getSessionMetadata(code: string) {
   if (!raw) return null;
 
   try {
-    return JSON.parse(raw) as { createdAt: string; ttlSeconds: number; expiresAt: string };
+    return JSON.parse(raw) as {
+      createdAt: string;
+      ttlSeconds: number;
+      expiresAt: string;
+    };
   } catch {
     return null;
   }

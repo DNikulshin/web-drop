@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import Fastify from "fastify";
 import { healthRoutes } from "./health.routes.js";
-import { redisIsConnected } from "../../shared/lib/redis.js";
 
 const buildServer = async () => {
   const server = Fastify();

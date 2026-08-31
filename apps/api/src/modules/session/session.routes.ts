@@ -7,12 +7,8 @@ import {
 } from "@web-drop/contracts";
 import {
   addSessionStreamEvent,
-  getSessionChannel,
-  getSessionGroupName,
   getSessionStreamEvents,
-  getSessionStreamKey,
   getRedisStatus,
-  getSessionMetadata,
   publishSessionEvent,
   refreshSessionTTL,
   redis,

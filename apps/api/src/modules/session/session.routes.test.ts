@@ -25,7 +25,7 @@ afterEach(async () => {
   try {
     await recreateRedisClients();
   } catch (err) {
-    // ignore recreation errors in teardown
+    console.log(err)
   }
 });
 
