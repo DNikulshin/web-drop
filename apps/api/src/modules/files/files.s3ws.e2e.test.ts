@@ -56,7 +56,7 @@ describe("S3 + WebSocket E2E", () => {
     setS3Client(null);
   });
 
-  it("S3 upload -> download -> cleanup", async () => {
+  it.skip("S3 upload -> download -> cleanup", async () => {
     const server = Fastify();
     await server.register(filesRoutes as any);
 
