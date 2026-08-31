@@ -1,0 +1,48 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Credentials
+credentials/
+secrets/
+private/
+certificates/
+
+# Production data
+*.sql
+*.dump
+*.bak
+backups/
+data/
+
+# Generated / build
+node_modules/
+dist/
+build/
+coverage/
+.cache/
+.tmp/
+logs/
+apps/api/data/uploads/
+packages/db/src/generated/
+.next/
+out/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Repomix itself
+repomix-output-*.md
+
+
+apps\api\data

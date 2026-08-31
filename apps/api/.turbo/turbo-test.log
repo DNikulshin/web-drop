@@ -1,565 +1,184 @@
 
-> @web-drop/api@1.0.0 test /workspaces/web-drop/apps/api
+> @web-drop/api@1.0.0 test C:\Users\dmn\Desktop\DEV_NEW\web-drop\apps\api
 > vitest run
 
-[?25l
-[1m[30m[46m RUN [49m[39m[22m [36mv4.1.10 [39m[90m/workspaces/web-drop/apps/api[39m
 
-[?2026h
-[1m[33m ❯ [39m[22mdist/src/modules/files/files.s3ws.e2e.test.js[2m [queued][22m
-
-[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m0 passed[39m[22m[90m (0)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m403ms
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22mdist/src/modules/files/files.s3ws.e2e.test.js[2m [queued][22m
-
-[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m0 passed[39m[22m[90m (0)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m906ms
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22mdist/src/modules/files/files.s3ws.e2e.test.js[2m 0/2[22m
-
-[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m0 passed[39m[22m[90m (2)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m1.01s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22mdist/src/modules/files/files.s3ws.e2e.test.js[2m 0/2[22m
-
-[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m0 passed[39m[22m[90m (2)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m1.91s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22mdist/src/modules/files/files.s3ws.e2e.test.js[2m 0/2[22m
-
-[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m0 passed[39m[22m[90m (2)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m2.91s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[90mstderr[2m | dist/src/modules/files/files.s3ws.e2e.test.js[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
-[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
-
-
-[1m[33m ❯ [39m[22mdist/src/modules/files/files.s3ws.e2e.test.js[2m 1/2[22m
-
-[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m1 passed[39m[22m[90m (2)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m3.01s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[90mstdout[2m | dist/src/modules/files/files.s3ws.e2e.test.js[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
-[22m[39mWS route open {
-  code: [32m'x6KXrfppVx'[39m,
-  params: NullObject <[Object: null prototype] {}> { code: [32m'x6KXrfppVx'[39m },
-  rawUrl: [32m'/ws/session/x6KXrfppVx'[39m,
-  redisReady: [33mtrue[39m
-}
-
-[90mstdout[2m | dist/src/modules/files/files.s3ws.e2e.test.js[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
-[22m[39mWS message received <Buffer 7b 22 74 79 70 65 22 3a 22 73 65 73 73 69 6f 6e 2e 74 65 78 74 2e 75 70 64 61 74 65 22 2c 22 64 61 74 61 22 3a 22 68 65 6c 6c 6f 20 65 32 65 22 7d>
-
-[90mstdout[2m | dist/src/modules/files/files.s3ws.e2e.test.js[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
-[22m[39mWS subscribe ready x6KXrfppVx
-
-[90mstdout[2m | dist/src/modules/files/files.s3ws.e2e.test.js[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
-[22m[39mWS publish event {
-  type: [32m'session.text.update'[39m,
-  code: [32m'x6KXrfppVx'[39m,
-  data: [32m'hello e2e'[39m,
-  sender: [32m'127.0.0.1'[39m,
-  createdAt: [32m'2026-08-01T03:21:57.852Z'[39m
-}
-
-[90mstdout[2m | dist/src/modules/files/files.s3ws.e2e.test.js[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
-[22m[39mWS subscription event {
-  type: [32m'session.text.update'[39m,
-  code: [32m'x6KXrfppVx'[39m,
-  data: [32m'hello e2e'[39m,
-  sender: [32m'127.0.0.1'[39m,
-  createdAt: [32m'2026-08-01T03:21:57.852Z'[39m
-}
-
-
-[1m[33m ❯ [39m[22mdist/src/modules/files/files.s3ws.e2e.test.js[2m 1/2[22m
-
-[2m Test Files [22m[1m[32m0 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m1 passed[39m[22m[90m (2)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m3.01s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m dist/src/modules/files/files.s3ws.e2e.test.js [2m([22m[2m2 tests[22m[2m)[22m[33m 1998[2mms[22m[39m
-     [33m[2m✓[22m[39m S3 upload -> download -> cleanup [33m 1894[2mms[22m[39m
-
-[1m[33m ❯ [39m[22msrc/modules/files/files.s3ws.e2e.test.ts[2m [queued][22m
-
-[2m Test Files [22m[1m[32m1 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m2 passed[39m[22m[90m (2)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m3.31s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22msrc/modules/files/files.s3ws.e2e.test.ts[2m 0/2[22m
-
-[2m Test Files [22m[1m[32m1 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m2 passed[39m[22m[90m (4)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m3.61s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22msrc/modules/files/files.s3ws.e2e.test.ts[2m 0/2[22m
-
-[2m Test Files [22m[1m[32m1 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m2 passed[39m[22m[90m (4)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m3.91s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22msrc/modules/files/files.s3ws.e2e.test.ts[2m 0/2[22m
-
-[2m Test Files [22m[1m[32m1 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m2 passed[39m[22m[90m (4)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m4.92s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[90mstderr[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
-[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
-
-
-[1m[33m ❯ [39m[22msrc/modules/files/files.s3ws.e2e.test.ts[2m 1/2[22m
-
-[2m Test Files [22m[1m[32m1 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m3 passed[39m[22m[90m (4)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m5.42s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[90mstdout[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
-[22m[39mWS route open {
-  code: [32m'ehRVVqOGiO'[39m,
-  params: NullObject <[Object: null prototype] {}> { code: [32m'ehRVVqOGiO'[39m },
-  rawUrl: [32m'/ws/session/ehRVVqOGiO'[39m,
-  redisReady: [33mtrue[39m
-}
-
-[90mstdout[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
-[22m[39mWS message received <Buffer 7b 22 74 79 70 65 22 3a 22 73 65 73 73 69 6f 6e 2e 74 65 78 74 2e 75 70 64 61 74 65 22 2c 22 64 61 74 61 22 3a 22 68 65 6c 6c 6f 20 65 32 65 22 7d>
-
-[90mstdout[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
-[22m[39mWS subscribe ready ehRVVqOGiO
-
-[90mstdout[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
-[22m[39mWS publish event {
-  type: [32m'session.text.update'[39m,
-  code: [32m'ehRVVqOGiO'[39m,
-  data: [32m'hello e2e'[39m,
-  sender: [32m'127.0.0.1'[39m,
-  createdAt: [32m'2026-08-01T03:22:00.302Z'[39m
-}
-
-[90mstdout[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
-[22m[39mWS subscription event {
-  type: [32m'session.text.update'[39m,
-  code: [32m'ehRVVqOGiO'[39m,
-  data: [32m'hello e2e'[39m,
-  sender: [32m'127.0.0.1'[39m,
-  createdAt: [32m'2026-08-01T03:22:00.302Z'[39m
-}
-
- [32m✓[39m src/modules/files/files.s3ws.e2e.test.ts [2m([22m[2m2 tests[22m[2m)[22m[33m 1876[2mms[22m[39m
-     [33m[2m✓[22m[39m S3 upload -> download -> cleanup [33m 1616[2mms[22m[39m
-
-[1m[33m ❯ [39m[22msrc/modules/files/files.e2e.test.ts[2m [queued][22m
-
-[2m Test Files [22m[1m[32m2 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m4 passed[39m[22m[90m (4)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m5.73s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22msrc/modules/files/files.e2e.test.ts[2m 0/1[22m
-
-[2m Test Files [22m[1m[32m2 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m4 passed[39m[22m[90m (5)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m5.93s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22msrc/modules/files/files.e2e.test.ts[2m 0/1[22m
-
-[2m Test Files [22m[1m[32m2 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m4 passed[39m[22m[90m (5)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m6.93s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22msrc/modules/files/files.e2e.test.ts[2m 1/1[22m
-
-[2m Test Files [22m[1m[32m2 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m5 passed[39m[22m[90m (5)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m7.53s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/modules/files/files.e2e.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 1629[2mms[22m[39m
-     [33m[2m✓[22m[39m upload -> download -> ttl cleanup [33m 1627[2mms[22m[39m
-
-[1m[33m ❯ [39m[22mdist/src/modules/files/files.e2e.test.js[2m [queued][22m
-
-[2m Test Files [22m[1m[32m3 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m5 passed[39m[22m[90m (5)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m7.63s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22mdist/src/modules/files/files.e2e.test.js[2m 0/1[22m
-
-[2m Test Files [22m[1m[32m3 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m5 passed[39m[22m[90m (6)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m7.83s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22mdist/src/modules/files/files.e2e.test.js[2m 0/1[22m
-
-[2m Test Files [22m[1m[32m3 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m5 passed[39m[22m[90m (6)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m7.93s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22mdist/src/modules/files/files.e2e.test.js[2m 0/1[22m
-
-[2m Test Files [22m[1m[32m3 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m5 passed[39m[22m[90m (6)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m8.94s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22mdist/src/modules/files/files.e2e.test.js[2m 1/1[22m
-
-[2m Test Files [22m[1m[32m3 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m6 passed[39m[22m[90m (6)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m9.54s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m dist/src/modules/files/files.e2e.test.js [2m([22m[2m1 test[22m[2m)[22m[33m 1674[2mms[22m[39m
-     [33m[2m✓[22m[39m upload -> download -> ttl cleanup [33m 1669[2mms[22m[39m
-
-[1m[33m ❯ [39m[22mdist/src/modules/session/session.routes.test.js[2m [queued][22m
-
-[2m Test Files [22m[1m[32m4 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m6 passed[39m[22m[90m (6)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m9.64s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22mdist/src/modules/session/session.routes.test.js[2m 0/4[22m
-
-[2m Test Files [22m[1m[32m4 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m6 passed[39m[22m[90m (10)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m9.84s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[90mstderr[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould create a session and return a code
-[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
-
-[90mstderr[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould return session history and status
-[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
-
-[90mstderr[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould accept text updates over HTTP and return ok
-[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
-
-[90mstderr[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
-
-
-[1m[33m ❯ [39m[22mdist/src/modules/session/session.routes.test.js[2m 1/4[22m
-
-[2m Test Files [22m[1m[32m4 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m7 passed[39m[22m[90m (10)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m10.14s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mcreate response [33m201[39m { code: [32m'Q7M-cI4oBz'[39m, expiresAt: [32m'2026-08-02T03:22:04.948Z'[39m }
-
-[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mWS route open {
-  code: [32m'Q7M-cI4oBz'[39m,
-  params: NullObject <[Object: null prototype] {}> { code: [32m'Q7M-cI4oBz'[39m },
-  rawUrl: [32m'/ws/session/Q7M-cI4oBz'[39m,
-  redisReady: [33mtrue[39m
-}
-
-[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mWS open
-
-[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mWS subscribe ready Q7M-cI4oBz
-
-[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mWS send message
-
-[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mWS message received <Buffer 7b 22 74 79 70 65 22 3a 22 73 65 73 73 69 6f 6e 2e 74 65 78 74 2e 75 70 64 61 74 65 22 2c 22 64 61 74 61 22 3a 22 68 65 6c 6c 6f 20 77 65 62 73 6f 63 ... 5 more bytes>
-
-[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mWS publish event {
-  type: [32m'session.text.update'[39m,
-  code: [32m'Q7M-cI4oBz'[39m,
-  data: [32m'hello websocket'[39m,
-  sender: [32m'127.0.0.1'[39m,
-  createdAt: [32m'2026-08-01T03:22:05.162Z'[39m
-}
-
-[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mWS subscription event {
-  type: [32m'session.text.update'[39m,
-  code: [32m'Q7M-cI4oBz'[39m,
-  data: [32m'hello websocket'[39m,
-  sender: [32m'127.0.0.1'[39m,
-  createdAt: [32m'2026-08-01T03:22:05.162Z'[39m
-}
-
-[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mWS received {
-  type: [32m'session.event'[39m,
-  event: {
-    type: [32m'session.text.update'[39m,
-    code: [32m'Q7M-cI4oBz'[39m,
-    data: [32m'hello websocket'[39m,
-    sender: [32m'127.0.0.1'[39m,
-    createdAt: [32m'2026-08-01T03:22:05.162Z'[39m
-  }
-}
-
-[90mstdout[2m | dist/src/modules/session/session.routes.test.js
-[22m[39mWS close [33m1005[39m 
-
-
-[1m[33m ❯ [39m[22mdist/src/modules/session/session.routes.test.js[2m 4/4[22m
-
-[2m Test Files [22m[1m[32m4 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m10 passed[39m[22m[90m (10)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m10.35s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m dist/src/modules/session/session.routes.test.js [2m([22m[2m4 tests[22m[2m)[22m[33m 495[2mms[22m[39m
-
-[1m[33m ❯ [39m[22msrc/modules/session/session.routes.test.ts[2m [queued][22m
-
-[2m Test Files [22m[1m[32m5 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m10 passed[39m[22m[90m (10)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m10.55s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22msrc/modules/session/session.routes.test.ts[2m [queued][22m
-
-[2m Test Files [22m[1m[32m5 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m10 passed[39m[22m[90m (10)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m10.95s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[90mstderr[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould create a session and return a code
-[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.10 [39m[90mC:/Users/dmn/Desktop/DEV_NEW/web-drop/apps/api[39m
+
+[90mstderr[2m | src/shared/lib/redis.test.ts[2m > [22m[2mRedis utilities
+[22m[39m[ioredis] Unhandled error event: AggregateError: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+
+ [31m❯[39m src/shared/lib/redis.test.ts [2m([22m[2m4 tests[22m[2m | [22m[33m4 skipped[39m[2m)[22m[32m 219[2mms[22m[39m
+     [2m[90m↓[39m[22m should compute stable session keys
+     [2m[90m↓[39m[22m should report connection status when Redis is ready
+     [2m[90m↓[39m[22m should create consumer group and add stream events
+     [2m[90m↓[39m[22m should publish and subscribe to a session channel
+[90mstderr[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould create a session and return a code
+[22m[39m[ioredis] Unhandled error event: AggregateError: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
 
 [90mstderr[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould return session history and status
-[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
+[22m[39m[ioredis] Unhandled error event: AggregateError: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
 
 [90mstderr[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould accept text updates over HTTP and return ok
-[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
+[22m[39m[ioredis] Unhandled error event: AggregateError: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
 
 [90mstderr[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39m[ioredis] Unhandled error event: AggregateError: 
+    at internalConnectMultiple (node:net:1142:49)
+ [31m❯[39m src/modules/session/session.routes.test.ts [2m([22m[2m4 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[32m 146[2mms[22m[39m
+    at afterConnectMultiple (node:net:1723:7)
+[31m     [31m×[31m should create a session and return a code[39m[32m 100[2mms[22m[39m
+[31m     [31m×[31m should return session history and status[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m should accept text updates over HTTP and return ok[39m[32m 18[2mms[22m[39m
+[31m     [31m×[31m should open a WebSocket session and receive text updates[39m[32m 20[2mms[22m[39m
+
+[90mstderr[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mS3 upload -> download -> cleanup
+[22m[39m[ioredis] Unhandled error event: AggregateError: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+
+[90mstderr[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mS3 upload -> download -> cleanup
+[22m[39m[ioredis] Unhandled error event: AggregateError: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+
+[90mstderr[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mS3 upload -> download -> cleanup
+[22m[39m[ioredis] Unhandled error event: AggregateError: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+
+[90mstderr[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mS3 upload -> download -> cleanup
+[22m[39m[ioredis] Unhandled error event: AggregateError: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+
+[90mstderr[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mS3 upload -> download -> cleanup
+[22m[39m[ioredis] Unhandled error event: AggregateError: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+
+ [32m✓[39m src/modules/health/health.routes.test.ts [2m([22m[2m2 tests[22m[2m)[22m[33m 470[2mms[22m[39m
+     [33m[2m✓[22m[39m should return live status [33m 453[2mms[22m[39m
+[90mstderr[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mS3 upload -> download -> cleanup
+[22m[39m[ioredis] Unhandled error event: AggregateError: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+
+[90mstderr[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mS3 upload -> download -> cleanup
+[22m[39m[ioredis] Unhandled error event: AggregateError: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+
+ [32m✓[39m src/modules/files/files.e2e.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 2374[2mms[22m[39m
+     [33m[2m✓[22m[39m upload -> download -> ttl cleanup [33m 2363[2mms[22m[39m
+[90mstderr[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mS3 upload -> download -> cleanup
+[22m[39m[ioredis] Unhandled error event: AggregateError: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+
+[90mstderr[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mS3 upload -> download -> cleanup
+[22m[39m[ioredis] Unhandled error event: AggregateError: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+
+ [32m✓[39m src/modules/files/files.routes.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 1043[2mms[22m[39m
+     [33m[2m✓[22m[39m should upload and download a file [33m 1034[2mms[22m[39m
+[90mstderr[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mS3 upload -> download -> cleanup
+[22m[39m[ioredis] Unhandled error event: AggregateError: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+
+[90mstderr[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mS3 upload -> download -> cleanup
+[22m[39m[ioredis] Unhandled error event: AggregateError: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+
+[90mstderr[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mS3 upload -> download -> cleanup
+[22m[39m[ioredis] Unhandled error event: AggregateError: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+
+[90mstderr[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mS3 upload -> download -> cleanup
+[22m[39m[ioredis] Unhandled error event: AggregateError: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
+
+[90mstderr[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
 [22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
 
+[90mstderr[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
+[22m[39m[ioredis] Unhandled error event: AggregateError: 
+    at internalConnectMultiple (node:net:1142:49)
+    at afterConnectMultiple (node:net:1723:7)
 
-[1m[33m ❯ [39m[22msrc/modules/session/session.routes.test.ts[2m 1/4[22m
+ [31m❯[39m src/modules/files/files.s3ws.e2e.test.ts [2m([22m[2m2 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[33m 10202[2mms[22m[39m
+[31m     [31m×[31m S3 upload -> download -> cleanup[39m[33m 10015[2mms[22m[39m
+[31m     [31m×[31m WebSocket session sync (E2E)[39m[32m 176[2mms[22m[39m
 
-[2m Test Files [22m[1m[32m5 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m11 passed[39m[22m[90m (14)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m11.25s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mcreate response [33m201[39m { code: [32m'Gjzz90Koj1'[39m, expiresAt: [32m'2026-08-02T03:22:06.050Z'[39m }
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Suites 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
 
-[90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mWS route open {
-  code: [32m'Gjzz90Koj1'[39m,
-  params: NullObject <[Object: null prototype] {}> { code: [32m'Gjzz90Koj1'[39m },
-  rawUrl: [32m'/ws/session/Gjzz90Koj1'[39m,
-  redisReady: [33mtrue[39m
-}
+[41m[1m FAIL [22m[49m src/shared/lib/redis.test.ts[2m > [22mRedis utilities
+[31m[1mError[22m: Connection is closed.[39m
+[90m [2m❯[22m EventEmitter.connectionCloseHandler ../../node_modules/.pnpm/ioredis@6.0.0/node_modules/ioredis/built/Redis.js:[2m233:28[22m[39m
 
-[90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mWS open
-
-[90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mWS subscribe ready Gjzz90Koj1
-
-[90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mWS send message
-
-[90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mWS message received <Buffer 7b 22 74 79 70 65 22 3a 22 73 65 73 73 69 6f 6e 2e 74 65 78 74 2e 75 70 64 61 74 65 22 2c 22 64 61 74 61 22 3a 22 68 65 6c 6c 6f 20 77 65 62 73 6f 63 ... 5 more bytes>
-
-[90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mWS publish event {
-  type: [32m'session.text.update'[39m,
-  code: [32m'Gjzz90Koj1'[39m,
-  data: [32m'hello websocket'[39m,
-  sender: [32m'127.0.0.1'[39m,
-  createdAt: [32m'2026-08-01T03:22:06.269Z'[39m
-}
-
-[90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mWS subscription event {
-  type: [32m'session.text.update'[39m,
-  code: [32m'Gjzz90Koj1'[39m,
-  data: [32m'hello websocket'[39m,
-  sender: [32m'127.0.0.1'[39m,
-  createdAt: [32m'2026-08-01T03:22:06.269Z'[39m
-}
-
-[90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mWS received {
-  type: [32m'session.event'[39m,
-  event: {
-    type: [32m'session.text.update'[39m,
-    code: [32m'Gjzz90Koj1'[39m,
-    data: [32m'hello websocket'[39m,
-    sender: [32m'127.0.0.1'[39m,
-    createdAt: [32m'2026-08-01T03:22:06.269Z'[39m
-  }
-}
-
-[90mstdout[2m | src/modules/session/session.routes.test.ts
-[22m[39mWS close [33m1005[39m 
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯[22m[39m
 
 
-[1m[33m ❯ [39m[22msrc/modules/session/session.routes.test.ts[2m 4/4[22m
 
-[2m Test Files [22m[1m[32m5 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m14 passed[39m[22m[90m (14)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m11.45s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/modules/session/session.routes.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 484[2mms[22m[39m
+[2m Test Files [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m3 passed[39m[22m[90m (6)[39m
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 6 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
 
-[1m[33m ❯ [39m[22msrc/modules/files/files.routes.test.ts[2m [queued][22m
+[2m      Tests [22m [1m[31m6 failed[39m[22m[2m | [22m[1m[32m4 passed[39m[22m[2m | [22m[33m4 skipped[39m[90m (14)[39m
+[2m   Start at [22m 17:17:37
+[2m   Duration [22m 13.51s[2m (transform 573ms, setup 0ms, import 7.75s, tests 14.46s, environment 2ms)[22m
 
-[2m Test Files [22m[1m[32m6 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m14 passed[39m[22m[90m (14)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m11.76s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22msrc/modules/files/files.routes.test.ts[2m 0/1[22m
+[41m[1m FAIL [22m[49m src/modules/files/files.s3ws.e2e.test.ts[2m > [22mS3 + WebSocket E2E[2m > [22mS3 upload -> download -> cleanup
+[31m[1mError[22m: Test timed out in 10000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[36m [2m❯[22m src/modules/files/files.s3ws.e2e.test.ts:[2m52:3[22m[39m
+    [90m 50|[39m   })[33m;[39m
+    [90m 51|[39m
+    [90m 52|[39m   [34mit[39m([32m'S3 upload -> download -> cleanup'[39m[33m,[39m [35masync[39m () [33m=>[39m {
+    [90m   |[39m   [31m^[39m
+    [90m 53|[39m     [35mconst[39m server [33m=[39m [33mFastify[39m()[33m;[39m
+    [90m 54|[39m     [35mawait[39m server[33m.[39m[34mregister[39m(filesRoutes [35mas[39m any)[33m;[39m
 
-[2m Test Files [22m[1m[32m6 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m14 passed[39m[22m[90m (15)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m11.96s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22msrc/modules/files/files.routes.test.ts[2m 1/1[22m
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯[22m[39m
 
-[2m Test Files [22m[1m[32m6 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m15 passed[39m[22m[90m (15)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m12.06s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/modules/files/files.routes.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 147[2mms[22m[39m
+[41m[1m FAIL [22m[49m src/modules/files/files.s3ws.e2e.test.ts[2m > [22mS3 + WebSocket E2E[2m > [22mWebSocket session sync (E2E)
+[31m[1mAssertionError[22m: expected 503 to be 201 // Object.is equality[39m
 
-[1m[33m ❯ [39m[22mdist/src/shared/lib/redis.test.js[2m [queued][22m
+[32m- Expected[39m
+[31m+ Received[39m
 
-[2m Test Files [22m[1m[32m7 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m15 passed[39m[22m[90m (15)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m12.27s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22mdist/src/shared/lib/redis.test.js[2m 0/4[22m
+[32m- 201[39m
+[31m+ 503[39m
 
-[2m Test Files [22m[1m[32m7 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m15 passed[39m[22m[90m (19)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m12.37s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22mdist/src/shared/lib/redis.test.js[2m 1/4[22m
+[36m [2m❯[22m src/modules/files/files.s3ws.e2e.test.ts:[2m96:34[22m[39m
+    [90m 94|[39m
+    [90m 95|[39m     const createRes = await server.inject({ method: 'POST', url: '/api…
+    [90m 96|[39m     [34mexpect[39m(createRes[33m.[39mstatusCode)[33m.[39m[34mtoBe[39m([34m201[39m)[33m;[39m
+    [90m   |[39m                                  [31m^[39m
+    [90m 97|[39m     [35mconst[39m { code } [33m=[39m createRes[33m.[39m[34mjson[39m()[33m;[39m
+    [90m 98|[39m     [34mexpect[39m(code)[33m.[39m[34mtoBeTruthy[39m()[33m;[39m
 
-[2m Test Files [22m[1m[32m7 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m16 passed[39m[22m[90m (19)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m12.47s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m dist/src/shared/lib/redis.test.js [2m([22m[2m4 tests[22m[2m)[22m[32m 136[2mms[22m[39m
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯[22m[39m
 
-[1m[33m ❯ [39m[22msrc/shared/lib/redis.test.ts[2m [queued][22m
+[41m[1m FAIL [22m[49m src/modules/session/session.routes.test.ts[2m > [22mSession routes[2m > [22mshould create a session and return a code
+[41m[1m FAIL [22m[49m src/modules/session/session.routes.test.ts[2m > [22mSession routes[2m > [22mshould return session history and status
+[41m[1m FAIL [22m[49m src/modules/session/session.routes.test.ts[2m > [22mSession routes[2m > [22mshould accept text updates over HTTP and return ok
+[41m[1m FAIL [22m[49m src/modules/session/session.routes.test.ts[2m > [22mSession routes[2m > [22mshould open a WebSocket session and receive text updates
+[31m[1mError[22m: Connection is closed.[39m
+[90m [2m❯[22m EventEmitter.connectionCloseHandler ../../node_modules/.pnpm/ioredis@6.0.0/node_modules/ioredis/built/Redis.js:[2m233:28[22m[39m
 
-[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m19 passed[39m[22m[90m (19)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m12.67s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22msrc/shared/lib/redis.test.ts[2m 1/4[22m
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯[22m[39m
 
-[2m Test Files [22m[1m[32m8 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m20 passed[39m[22m[90m (23)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m12.77s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/shared/lib/redis.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 134[2mms[22m[39m
-
-[1m[33m ❯ [39m[22mdist/src/modules/files/files.routes.test.js[2m [queued][22m
-
-[2m Test Files [22m[1m[32m9 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m23 passed[39m[22m[90m (23)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m12.97s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22mdist/src/modules/files/files.routes.test.js[2m 0/1[22m
-
-[2m Test Files [22m[1m[32m9 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m23 passed[39m[22m[90m (24)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m13.07s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22mdist/src/modules/files/files.routes.test.js[2m 1/1[22m
-
-[2m Test Files [22m[1m[32m9 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m24 passed[39m[22m[90m (24)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m13.27s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m dist/src/modules/files/files.routes.test.js [2m([22m[2m1 test[22m[2m)[22m[32m 146[2mms[22m[39m
-
-[1m[33m ❯ [39m[22mdist/src/modules/health/health.routes.test.js[2m [queued][22m
-
-[2m Test Files [22m[1m[32m10 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m24 passed[39m[22m[90m (24)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m13.37s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22mdist/src/modules/health/health.routes.test.js[2m 0/2[22m
-
-[2m Test Files [22m[1m[32m10 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m24 passed[39m[22m[90m (26)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m13.57s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22mdist/src/modules/health/health.routes.test.js[2m 1/2[22m
-
-[2m Test Files [22m[1m[32m10 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m25 passed[39m[22m[90m (26)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m13.67s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m dist/src/modules/health/health.routes.test.js [2m([22m[2m2 tests[22m[2m)[22m[32m 115[2mms[22m[39m
-
-[1m[33m ❯ [39m[22msrc/modules/health/health.routes.test.ts[2m [queued][22m
-
-[2m Test Files [22m[1m[32m11 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m26 passed[39m[22m[90m (26)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m13.87s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22msrc/modules/health/health.routes.test.ts[2m [queued][22m
-
-[2m Test Files [22m[1m[32m11 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m26 passed[39m[22m[90m (26)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m13.97s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22msrc/modules/health/health.routes.test.ts[2m 0/2[22m
-
-[2m Test Files [22m[1m[32m11 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m26 passed[39m[22m[90m (28)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m14.07s
-[?2026l[?2026h[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K
-[1m[33m ❯ [39m[22msrc/modules/health/health.routes.test.ts[2m 1/2[22m
-
-[2m Test Files [22m[1m[32m11 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m[1m[32m27 passed[39m[22m[90m (28)[39m
-[2m   Start at [22m03:21:54
-[2m   Duration [22m14.17s
-[?2026l[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K[1A[K [32m✓[39m src/modules/health/health.routes.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 103[2mms[22m[39m
-
-[2m Test Files [22m [1m[32m12 passed[39m[22m[90m (12)[39m
-[2m      Tests [22m [1m[32m28 passed[39m[22m[90m (28)[39m
-[2m   Start at [22m 03:21:54
-[2m   Duration [22m 14.24s[2m (transform 389ms, setup 0ms, import 2.80s, tests 8.94s, environment 2ms)[22m
-
-[?25h
+ ELIFECYCLE  Test failed. See above for more details.

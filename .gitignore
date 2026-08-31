@@ -20,3 +20,5 @@ packages/db/src/generated/
 # Turbo cache files
 /packages/db/.turbo/
 packages/db/.turbo/
+
+apps\api\data

@@ -1,6 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+import { redis } from "./lib/redis.js";
 
 const cwd = process.cwd();
 const UPLOAD_DIR = cwd.endsWith(path.join("apps", "api"))
@@ -39,7 +40,7 @@ export async function saveFileS3(code: string, buffer: Buffer, meta: Record<stri
   await s3Client.send(
     new PutObjectCommand({ Bucket: S3_BUCKET, Key: code, Body: buffer, Metadata: { filename: String(meta.filename || code) } }),
   );
-  await fs.writeFile(path.join(UPLOAD_DIR, `${code}.meta.json`), JSON.stringify(meta));
+  await redis.set(`file:${code}:meta`, JSON.stringify(meta));
 }
 
 export async function deleteFile(code: string) {
@@ -50,7 +51,7 @@ export async function deleteFile(code: string) {
     if (isUseS3() && s3Client && S3_BUCKET) {
       try {
         await s3Client.send(new DeleteObjectCommand({ Bucket: S3_BUCKET, Key: code }));
-        await fs.unlink(metaPath).catch(() => {});
+        await redis.del(`file:${code}:meta`).catch(() => {});
         return { code, s3: true, success: true };
       } catch (err: any) {
         return { code, s3: true, success: false, error: String(err.message ?? err) };
@@ -88,6 +89,15 @@ export async function readFile(code: string) {
 }
 
 export async function readMeta(code: string) {
+  if (isUseS3()) {
+    try {
+      const raw = await redis.get(`file:${code}:meta`);
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  }
+
   const metaPath = path.join(UPLOAD_DIR, `${code}.meta.json`);
   try {
     const raw = await fs.readFile(metaPath, "utf-8");
@@ -98,6 +108,30 @@ export async function readMeta(code: string) {
 }
 
 export async function listExpired() {
+  if (isUseS3()) {
+    const expired: string[] = [];
+    let cursor = '0';
+    do {
+      const [newCursor, keys] = await redis.scan(cursor, 'MATCH', 'file:*:meta');
+      cursor = newCursor;
+      
+      for (const key of keys) {
+        const raw = await redis.get(key);
+        if (!raw) continue;
+        try {
+          const meta = JSON.parse(raw);
+          if (meta.expiresAt && new Date(meta.expiresAt).getTime() < Date.now()) {
+            const code = key.replace(/^file:(.*):meta$/, '$1');
+            expired.push(code);
+          }
+        } catch {
+          continue;
+        }
+      }
+    } while (cursor !== '0');
+    return expired;
+  }
+
   await ensureUploadDir();
   const files = await fs.readdir(UPLOAD_DIR);
   const expired: string[] = [];
