@@ -39,6 +39,7 @@ jobs:
         with:
           cache: "pnpm"
       - run: pnpm install
+      - run: pnpm run lint
       - run: pnpm run db:generate
       - run: pnpm run typecheck
       - run: pnpm run test
