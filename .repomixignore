@@ -43,6 +43,7 @@ Thumbs.db
 
 # Repomix itself
 repomix-output-*.md
-
+repomix-output*.xml
 
 apps\api\data
+
