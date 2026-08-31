@@ -5,19 +5,20 @@ import {
   sessionCreatedResponseSchema,
   textUpdatePayloadSchema,
 } from "@web-drop/contracts";
+import { prisma } from "@web-drop/db";
 import {
   addSessionStreamEvent,
   getSessionStreamEvents,
   getRedisStatus,
   publishSessionEvent,
-  refreshSessionTTL,
   redis,
   redisSubscriber,
   redisIsConnected,
-  sessionExists,
-  setSessionMetadata,
   ensureRedisClientsReady,
   subscribeSessionChannel,
+  sessionExists,
+  setSessionMetadata,
+  refreshSessionTTL,
 } from "../../shared/lib/redis.js";
 
 const createSessionBodyJsonSchema = {

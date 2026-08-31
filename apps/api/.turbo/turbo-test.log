@@ -2,74 +2,29 @@ $ vitest run
 
 [1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90mC:/Users/dmn/Desktop/NEW_DEV/web-drop/apps/api[39m
 
+[90mstderr[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould create a session and return a code
+[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
+
 [90mstderr[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
 [22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
 
-[90mstdout[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
-[22m[39mWS route open {
-[90mstderr[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould create a session and return a code
-  code: [32m'vzcaU_CVun'[39m,
-[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
-  params: NullObject <[Object: null prototype] {}> { code: [32m'vzcaU_CVun'[39m },
-  rawUrl: [32m'/ws/session/vzcaU_CVun'[39m,
-  redisReady: [33mtrue[39m
-}
-
-
-[90mstdout[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
-[22m[39mWS message received <Buffer 7b 22 74 79 70 65 22 3a 22 73 65 73 73 69 6f 6e 2e 74 65 78 74 2e 75 70 64 61 74 65 22 2c 22 64 61 74 61 22 3a 22 68 65 6c 6c 6f 20 65 32 65 22 7d>
-
-[90mstderr[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould create a session and return a code
-[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
-
-[90mstdout[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
-[22m[39mWS subscribe ready vzcaU_CVun
-
-[90mstdout[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
-[22m[39mWS publish event {
-  type: [32m'session.text.update'[39m,
-  code: [32m'vzcaU_CVun'[39m,
-  data: [32m'hello e2e'[39m,
-  sender: [32m'127.0.0.1'[39m,
-  createdAt: [32m'2026-08-31T19:47:05.661Z'[39m
-}
-
-[90mstdout[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
-[22m[39mWS subscription event {
-  type: [32m'session.text.update'[39m,
-  code: [32m'vzcaU_CVun'[39m,
-  data: [32m'hello e2e'[39m,
-  sender: [32m'127.0.0.1'[39m,
-  createdAt: [32m'2026-08-31T19:47:05.661Z'[39m
-}
-
- [32m✓[39m src/modules/files/files.s3ws.e2e.test.ts [2m([22m[2m2 tests[22m[2m | [22m[33m1 skipped[39m[2m)[22m[33m 1939[2mms[22m[39m
-     [33m[2m✓[22m[39m WebSocket session sync (E2E) [33m 1936[2mms[22m[39m
 [90mstderr[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould return session history and status
 [22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
 
-[90mstderr[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould return session history and status
-[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
-
 [90mstderr[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould accept text updates over HTTP and return ok
-[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
-
- [32m✓[39m dist/src/shared/lib/redis.test.js [2m([22m[2m4 tests[22m[2m)[22m[33m 2074[2mms[22m[39m
-     [33m[2m✓[22m[39m should publish and subscribe to a session channel [33m 606[2mms[22m[39m
-[90mstderr[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould accept text updates over HTTP and return ok
 [22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
 
 [90mstderr[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
 [22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
 
 [90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mcreate response [33m201[39m { code: [32m'ynHgBNjXW4'[39m, expiresAt: [32m'2026-09-01T19:47:09.176Z'[39m }
+[22m[39mcreate response [33m201[39m { code: [32m'oLWatmQyts'[39m, expiresAt: [32m'2026-09-01T21:39:27.805Z'[39m }
 
 [90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
 [22m[39mWS route open {
-  code: [32m'ynHgBNjXW4'[39m,
-  params: NullObject <[Object: null prototype] {}> { code: [32m'ynHgBNjXW4'[39m },
-  rawUrl: [32m'/ws/session/ynHgBNjXW4'[39m,
+  code: [32m'oLWatmQyts'[39m,
+  params: NullObject <[Object: null prototype] {}> { code: [32m'oLWatmQyts'[39m },
+  rawUrl: [32m'/ws/session/oLWatmQyts'[39m,
   redisReady: [33mtrue[39m
 }
 
@@ -82,42 +37,25 @@ $ vitest run
 [90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
 [22m[39mWS message received <Buffer 7b 22 74 79 70 65 22 3a 22 73 65 73 73 69 6f 6e 2e 74 65 78 74 2e 75 70 64 61 74 65 22 2c 22 64 61 74 61 22 3a 22 68 65 6c 6c 6f 20 77 65 62 73 6f 63 ... 5 more bytes>
 
-[90mstderr[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
-
-[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mcreate response [33m201[39m { code: [32m'KNW4Tx0LJM'[39m, expiresAt: [32m'2026-09-01T19:47:09.575Z'[39m }
-
-[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mWS route open {
-  code: [32m'KNW4Tx0LJM'[39m,
-  params: NullObject <[Object: null prototype] {}> { code: [32m'KNW4Tx0LJM'[39m },
-  rawUrl: [32m'/ws/session/KNW4Tx0LJM'[39m,
-  redisReady: [33mtrue[39m
-}
-
-[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mWS open
-
 [90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mWS subscribe ready ynHgBNjXW4
+[22m[39mWS subscribe ready oLWatmQyts
 
 [90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
 [22m[39mWS publish event {
   type: [32m'session.text.update'[39m,
-  code: [32m'ynHgBNjXW4'[39m,
+  code: [32m'oLWatmQyts'[39m,
   data: [32m'hello websocket'[39m,
   sender: [32m'127.0.0.1'[39m,
-  createdAt: [32m'2026-08-31T19:47:09.679Z'[39m
+  createdAt: [32m'2026-08-31T21:39:28.113Z'[39m
 }
 
 [90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
 [22m[39mWS subscription event {
   type: [32m'session.text.update'[39m,
-  code: [32m'ynHgBNjXW4'[39m,
+  code: [32m'oLWatmQyts'[39m,
   data: [32m'hello websocket'[39m,
   sender: [32m'127.0.0.1'[39m,
-  createdAt: [32m'2026-08-31T19:47:09.679Z'[39m
+  createdAt: [32m'2026-08-31T21:39:28.113Z'[39m
 }
 
 [90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
@@ -125,21 +63,79 @@ $ vitest run
   type: [32m'session.event'[39m,
   event: {
     type: [32m'session.text.update'[39m,
-    code: [32m'ynHgBNjXW4'[39m,
+    code: [32m'oLWatmQyts'[39m,
     data: [32m'hello websocket'[39m,
     sender: [32m'127.0.0.1'[39m,
-    createdAt: [32m'2026-08-31T19:47:09.679Z'[39m
+    createdAt: [32m'2026-08-31T21:39:28.113Z'[39m
   }
 }
 
-[90mstdout[2m | src/modules/session/session.routes.test.ts
+[90mstdout[2m | src/modules/session/session.routes.test.ts[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
 [22m[39mWS close [33m1005[39m 
 
- [32m✓[39m src/modules/session/session.routes.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 6150[2mms[22m[39m
-     [33m[2m✓[22m[39m should create a session and return a code [33m 1687[2mms[22m[39m
-     [33m[2m✓[22m[39m should return session history and status [33m 1050[2mms[22m[39m
-     [33m[2m✓[22m[39m should accept text updates over HTTP and return ok [33m 1475[2mms[22m[39m
-     [33m[2m✓[22m[39m should open a WebSocket session and receive text updates [33m 1934[2mms[22m[39m
+ [32m✓[39m src/modules/session/session.routes.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 2191[2mms[22m[39m
+     [33m[2m✓[22m[39m should create a session and return a code [33m 1318[2mms[22m[39m
+     [33m[2m✓[22m[39m should open a WebSocket session and receive text updates [33m 447[2mms[22m[39m
+[90mstdout[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
+[22m[39mWS route open {
+  code: [32m'vALKylNRNN'[39m,
+  params: NullObject <[Object: null prototype] {}> { code: [32m'vALKylNRNN'[39m },
+  rawUrl: [32m'/ws/session/vALKylNRNN'[39m,
+  redisReady: [33mtrue[39m
+[90mstderr[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould create a session and return a code
+[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
+
+}
+
+[90mstdout[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
+[22m[39mWS message received <Buffer 7b 22 74 79 70 65 22 3a 22 73 65 73 73 69 6f 6e 2e 74 65 78 74 2e 75 70 64 61 74 65 22 2c 22 64 61 74 61 22 3a 22 68 65 6c 6c 6f 20 65 32 65 22 7d>
+
+[90mstdout[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
+[22m[39mWS subscribe ready vALKylNRNN
+
+[90mstdout[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
+[22m[39mWS publish event {
+  type: [32m'session.text.update'[39m,
+  code: [32m'vALKylNRNN'[39m,
+  data: [32m'hello e2e'[39m,
+  sender: [32m'127.0.0.1'[39m,
+  createdAt: [32m'2026-08-31T21:39:28.997Z'[39m
+}
+
+[90mstdout[2m | src/modules/files/files.s3ws.e2e.test.ts[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
+[22m[39mWS subscription event {
+  type: [32m'session.text.update'[39m,
+  code: [32m'vALKylNRNN'[39m,
+  data: [32m'hello e2e'[39m,
+  sender: [32m'127.0.0.1'[39m,
+  createdAt: [32m'2026-08-31T21:39:28.997Z'[39m
+}
+
+ [32m✓[39m src/modules/files/files.s3ws.e2e.test.ts [2m([22m[2m2 tests[22m[2m | [22m[33m1 skipped[39m[2m)[22m[33m 2533[2mms[22m[39m
+     [33m[2m✓[22m[39m WebSocket session sync (E2E) [33m 2525[2mms[22m[39m
+[90mstderr[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould return session history and status
+[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
+
+[90mstderr[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould accept text updates over HTTP and return ok
+[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
+
+[90mstderr[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mcreate response [33m201[39m { code: [32m'ggTv6gINtZ'[39m, expiresAt: [32m'2026-09-01T21:39:31.914Z'[39m }
+
+[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mWS route open {
+  code: [32m'ggTv6gINtZ'[39m,
+  params: NullObject <[Object: null prototype] {}> { code: [32m'ggTv6gINtZ'[39m },
+  rawUrl: [32m'/ws/session/ggTv6gINtZ'[39m,
+  redisReady: [33mtrue[39m
+}
+[22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
+
+
+[90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
+[22m[39mWS open
+
 [90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
 [22m[39mWS send message
 
@@ -147,24 +143,24 @@ $ vitest run
 [22m[39mWS message received <Buffer 7b 22 74 79 70 65 22 3a 22 73 65 73 73 69 6f 6e 2e 74 65 78 74 2e 75 70 64 61 74 65 22 2c 22 64 61 74 61 22 3a 22 68 65 6c 6c 6f 20 77 65 62 73 6f 63 ... 5 more bytes>
 
 [90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
-[22m[39mWS subscribe ready KNW4Tx0LJM
+[22m[39mWS subscribe ready ggTv6gINtZ
 
 [90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
 [22m[39mWS publish event {
   type: [32m'session.text.update'[39m,
-  code: [32m'KNW4Tx0LJM'[39m,
+  code: [32m'ggTv6gINtZ'[39m,
   data: [32m'hello websocket'[39m,
   sender: [32m'127.0.0.1'[39m,
-  createdAt: [32m'2026-08-31T19:47:10.527Z'[39m
+  createdAt: [32m'2026-08-31T21:39:32.197Z'[39m
 }
 
 [90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
 [22m[39mWS subscription event {
   type: [32m'session.text.update'[39m,
-  code: [32m'KNW4Tx0LJM'[39m,
+  code: [32m'ggTv6gINtZ'[39m,
   data: [32m'hello websocket'[39m,
   sender: [32m'127.0.0.1'[39m,
-  createdAt: [32m'2026-08-31T19:47:10.527Z'[39m
+  createdAt: [32m'2026-08-31T21:39:32.197Z'[39m
 }
 
 [90mstdout[2m | dist/src/modules/session/session.routes.test.js[2m > [22m[2mSession routes[2m > [22m[2mshould open a WebSocket session and receive text updates
@@ -172,97 +168,99 @@ $ vitest run
   type: [32m'session.event'[39m,
   event: {
     type: [32m'session.text.update'[39m,
-    code: [32m'KNW4Tx0LJM'[39m,
+    code: [32m'ggTv6gINtZ'[39m,
     data: [32m'hello websocket'[39m,
     sender: [32m'127.0.0.1'[39m,
-    createdAt: [32m'2026-08-31T19:47:10.527Z'[39m
+    createdAt: [32m'2026-08-31T21:39:32.197Z'[39m
   }
 }
 
 [90mstdout[2m | dist/src/modules/session/session.routes.test.js
 [22m[39mWS close [33m1005[39m 
 
- [32m✓[39m dist/src/modules/session/session.routes.test.js [2m([22m[2m4 tests[22m[2m)[22m[33m 7061[2mms[22m[39m
-     [33m[2m✓[22m[39m should create a session and return a code [33m 1966[2mms[22m[39m
-     [33m[2m✓[22m[39m should return session history and status [33m 1520[2mms[22m[39m
-     [33m[2m✓[22m[39m should accept text updates over HTTP and return ok [33m 1606[2mms[22m[39m
-     [33m[2m✓[22m[39m should open a WebSocket session and receive text updates [33m 1965[2mms[22m[39m
+ [32m✓[39m dist/src/modules/session/session.routes.test.js [2m([22m[2m4 tests[22m[2m)[22m[33m 6370[2mms[22m[39m
+     [33m[2m✓[22m[39m should create a session and return a code [33m 3287[2mms[22m[39m
+     [33m[2m✓[22m[39m should return session history and status [33m 1059[2mms[22m[39m
+     [33m[2m✓[22m[39m should accept text updates over HTTP and return ok [33m 644[2mms[22m[39m
+     [33m[2m✓[22m[39m should open a WebSocket session and receive text updates [33m 1374[2mms[22m[39m
 [90mstdout[2m | dist/src/modules/files/files.e2e.test.js[2m > [22m[2mFiles E2E[2m > [22m[2mupload -> download -> ttl cleanup
-[22m[39mError: ENOENT: no such file or directory, open 'C:\Users\dmn\Desktop\NEW_DEV\web-drop\apps\api\data\uploads\2rDaRaoU'
+[22m[39mError: ENOENT: no such file or directory, open 'C:\Users\dmn\Desktop\NEW_DEV\web-drop\apps\api\data\uploads\Yu9NWoUS'
 [90m    at open (node:internal/fs/promises:641:25)[39m
 [90m    at Object.readFile (node:internal/fs/promises:1245:14)[39m
     at Object.<anonymous> (C:/Users/dmn/Desktop/NEW_DEV/web-drop/apps/api/src/modules/files/files.routes.ts:115:26) {
   errno: [33m-4058[39m,
   code: [32m'ENOENT'[39m,
   syscall: [32m'open'[39m,
-  path: [32m'C:\\Users\\dmn\\Desktop\\NEW_DEV\\web-drop\\apps\\api\\data\\uploads\\2rDaRaoU'[39m
+  path: [32m'C:\\Users\\dmn\\Desktop\\NEW_DEV\\web-drop\\apps\\api\\data\\uploads\\Yu9NWoUS'[39m
 }
 
- [32m✓[39m dist/src/modules/files/files.e2e.test.js [2m([22m[2m1 test[22m[2m)[22m[33m 2041[2mms[22m[39m
-     [33m[2m✓[22m[39m upload -> download -> ttl cleanup [33m 2037[2mms[22m[39m
+ [32m✓[39m dist/src/modules/files/files.e2e.test.js [2m([22m[2m1 test[22m[2m)[22m[33m 2562[2mms[22m[39m
+     [33m[2m✓[22m[39m upload -> download -> ttl cleanup [33m 2555[2mms[22m[39m
+[90mstdout[2m | src/modules/files/files.e2e.test.ts[2m > [22m[2mFiles E2E[2m > [22m[2mupload -> download -> ttl cleanup
+[22m[39mError: ENOENT: no such file or directory, open 'C:\Users\dmn\Desktop\NEW_DEV\web-drop\apps\api\data\uploads\UAzi6gkh'
+[90m    at open (node:internal/fs/promises:641:25)[39m
+[90m    at Object.readFile (node:internal/fs/promises:1245:14)[39m
+    at Object.<anonymous> (C:/Users/dmn/Desktop/NEW_DEV/web-drop/apps/api/src/modules/files/files.routes.ts:115:26) {
+  errno: [33m-4058[39m,
+  code: [32m'ENOENT'[39m,
+  syscall: [32m'open'[39m,
 [90mstderr[2m | dist/src/modules/files/files.s3ws.e2e.test.js[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
+  path: [32m'C:\\Users\\dmn\\Desktop\\NEW_DEV\\web-drop\\apps\\api\\data\\uploads\\UAzi6gkh'[39m
 [22m[39mstrict mode: use allowUnionTypes to allow union type keyword at "#/properties/data" (strictTypes)
+}
 
+
+ [32m✓[39m src/modules/files/files.e2e.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 2478[2mms[22m[39m
+     [33m[2m✓[22m[39m upload -> download -> ttl cleanup [33m 2472[2mms[22m[39m
 [90mstdout[2m | dist/src/modules/files/files.s3ws.e2e.test.js[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
 [22m[39mWS route open {
-  code: [32m'a3LGvDyHA_'[39m,
-  params: NullObject <[Object: null prototype] {}> { code: [32m'a3LGvDyHA_'[39m },
-  rawUrl: [32m'/ws/session/a3LGvDyHA_'[39m,
+  code: [32m'lthBhl17WP'[39m,
+  params: NullObject <[Object: null prototype] {}> { code: [32m'lthBhl17WP'[39m },
+  rawUrl: [32m'/ws/session/lthBhl17WP'[39m,
   redisReady: [33mtrue[39m
 }
 
 [90mstdout[2m | dist/src/modules/files/files.s3ws.e2e.test.js[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
 [22m[39mWS message received <Buffer 7b 22 74 79 70 65 22 3a 22 73 65 73 73 69 6f 6e 2e 74 65 78 74 2e 75 70 64 61 74 65 22 2c 22 64 61 74 61 22 3a 22 68 65 6c 6c 6f 20 65 32 65 22 7d>
 
-[90mstdout[2m | src/modules/files/files.e2e.test.ts[2m > [22m[2mFiles E2E[2m > [22m[2mupload -> download -> ttl cleanup
-[22m[39mError: ENOENT: no such file or directory, open 'C:\Users\dmn\Desktop\NEW_DEV\web-drop\apps\api\data\uploads\CSlU8sc6'
-[90m    at open (node:internal/fs/promises:641:25)[39m
-[90m    at Object.readFile (node:internal/fs/promises:1245:14)[39m
-    at Object.<anonymous> (C:/Users/dmn/Desktop/NEW_DEV/web-drop/apps/api/src/modules/files/files.routes.ts:115:26) {
-  errno: [33m-4058[39m,
-  code: [32m'ENOENT'[39m,
-  syscall: [32m'open'[39m,
-  path: [32m'C:\\Users\\dmn\\Desktop\\NEW_DEV\\web-drop\\apps\\api\\data\\uploads\\CSlU8sc6'[39m
-}
-
- [32m✓[39m src/modules/files/files.e2e.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 2536[2mms[22m[39m
-     [33m[2m✓[22m[39m upload -> download -> ttl cleanup [33m 2530[2mms[22m[39m
 [90mstdout[2m | dist/src/modules/files/files.s3ws.e2e.test.js[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
-[22m[39mWS subscribe ready a3LGvDyHA_
+[22m[39mWS subscribe ready lthBhl17WP
 
 [90mstdout[2m | dist/src/modules/files/files.s3ws.e2e.test.js[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
 [22m[39mWS publish event {
   type: [32m'session.text.update'[39m,
-  code: [32m'a3LGvDyHA_'[39m,
+  code: [32m'lthBhl17WP'[39m,
   data: [32m'hello e2e'[39m,
   sender: [32m'127.0.0.1'[39m,
-  createdAt: [32m'2026-08-31T19:47:15.319Z'[39m
+  createdAt: [32m'2026-08-31T21:39:37.807Z'[39m
 }
 
 [90mstdout[2m | dist/src/modules/files/files.s3ws.e2e.test.js[2m > [22m[2mS3 + WebSocket E2E[2m > [22m[2mWebSocket session sync (E2E)
 [22m[39mWS subscription event {
   type: [32m'session.text.update'[39m,
-  code: [32m'a3LGvDyHA_'[39m,
+  code: [32m'lthBhl17WP'[39m,
   data: [32m'hello e2e'[39m,
   sender: [32m'127.0.0.1'[39m,
-  createdAt: [32m'2026-08-31T19:47:15.319Z'[39m
+  createdAt: [32m'2026-08-31T21:39:37.807Z'[39m
 }
 
- [32m✓[39m dist/src/modules/files/files.s3ws.e2e.test.js [2m([22m[2m2 tests[22m[2m | [22m[33m1 skipped[39m[2m)[22m[33m 4070[2mms[22m[39m
-     [33m[2m✓[22m[39m WebSocket session sync (E2E) [33m 4065[2mms[22m[39m
- [32m✓[39m src/shared/lib/redis.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 2040[2mms[22m[39m
-     [33m[2m✓[22m[39m should publish and subscribe to a session channel [33m 590[2mms[22m[39m
- [32m✓[39m dist/src/modules/health/health.routes.test.js [2m([22m[2m2 tests[22m[2m)[22m[33m 700[2mms[22m[39m
-     [33m[2m✓[22m[39m should return live status [33m 666[2mms[22m[39m
- [32m✓[39m dist/src/modules/files/files.routes.test.js [2m([22m[2m1 test[22m[2m)[22m[33m 728[2mms[22m[39m
-     [33m[2m✓[22m[39m should upload and download a file [33m 720[2mms[22m[39m
- [32m✓[39m src/modules/files/files.routes.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 734[2mms[22m[39m
-     [33m[2m✓[22m[39m should upload and download a file [33m 729[2mms[22m[39m
- [32m✓[39m src/modules/health/health.routes.test.ts [2m([22m[2m2 tests[22m[2m)[22m[33m 401[2mms[22m[39m
-     [33m[2m✓[22m[39m should return live status [33m 376[2mms[22m[39m
+ [32m✓[39m dist/src/modules/files/files.s3ws.e2e.test.js [2m([22m[2m2 tests[22m[2m | [22m[33m1 skipped[39m[2m)[22m[33m 2931[2mms[22m[39m
+     [33m[2m✓[22m[39m WebSocket session sync (E2E) [33m 2917[2mms[22m[39m
+ [32m✓[39m src/modules/files/files.routes.test.ts [2m([22m[2m1 test[22m[2m)[22m[33m 998[2mms[22m[39m
+     [33m[2m✓[22m[39m should upload and download a file [33m 984[2mms[22m[39m
+ [32m✓[39m dist/src/modules/files/files.routes.test.js [2m([22m[2m1 test[22m[2m)[22m[33m 1222[2mms[22m[39m
+     [33m[2m✓[22m[39m should upload and download a file [33m 1202[2mms[22m[39m
+ [32m✓[39m src/modules/health/health.routes.test.ts [2m([22m[2m2 tests[22m[2m)[22m[33m 1143[2mms[22m[39m
+     [33m[2m✓[22m[39m should return live status [33m 1068[2mms[22m[39m
+ [32m✓[39m dist/src/shared/lib/redis.test.js [2m([22m[2m4 tests[22m[2m)[22m[33m 1538[2mms[22m[39m
+     [33m[2m✓[22m[39m should publish and subscribe to a session channel [33m 403[2mms[22m[39m
+ [32m✓[39m dist/src/modules/health/health.routes.test.js [2m([22m[2m2 tests[22m[2m)[22m[33m 748[2mms[22m[39m
+     [33m[2m✓[22m[39m should return live status [33m 675[2mms[22m[39m
+ [32m✓[39m src/shared/lib/redis.test.ts [2m([22m[2m4 tests[22m[2m)[22m[33m 1715[2mms[22m[39m
+     [33m[2m✓[22m[39m should publish and subscribe to a session channel [33m 342[2mms[22m[39m
 
 [2m Test Files [22m [1m[32m12 passed[39m[22m[90m (12)[39m
 [2m      Tests [22m [1m[32m26 passed[39m[22m[2m | [22m[33m2 skipped[39m[90m (28)[39m
-[2m   Start at [22m 22:47:00
-[2m   Duration [22m 18.94s[2m (transform 1.29s, setup 0ms, import 13.54s, tests 30.47s, environment 8ms)[22m
+[2m   Start at [22m 00:39:22
+[2m   Duration [22m 22.73s[2m (transform 1.29s, setup 0ms, import 18.87s, tests 26.43s, environment 8ms)[22m
 

@@ -4,15 +4,11 @@ import Fastify from "fastify";
 import fastifyWebsocket from "@fastify/websocket";
 import WebSocket from "ws";
 import { sessionRoutes } from "./session.routes.js";
-import { redis, redisSubscriber, recreateRedisClients } from "../../shared/lib/redis.js";
+import { redis, redisSubscriber, ensureRedisClientsReady } from "../../shared/lib/redis.js";
 
 const buildServer = async () => {
-  if (redis.status !== "ready") {
-    await redis.connect();
-  }
-  if (redisSubscriber.status !== "ready") {
-    await redisSubscriber.connect();
-  }
+  // Use centralized Redis ready check
+  await ensureRedisClientsReady();
 
   const server = Fastify();
   await server.register(fastifyWebsocket);
@@ -23,9 +19,13 @@ const buildServer = async () => {
 afterEach(async () => {
   // Recreate Redis clients to ensure a fresh state between tests.
   try {
-    await recreateRedisClients();
+    // Clean Redis session keys between tests
+    const keys = await redis.keys('session:*');
+    if (keys.length > 0) {
+      await redis.del(keys);
+    }
   } catch (err) {
-    console.log(err)
+    console.log('Redis cleanup error:', err);
   }
 });
 
