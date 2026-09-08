@@ -21,6 +21,6 @@ packages/db/src/generated/
 /packages/db/.turbo/
 packages/db/.turbo/
 
-apps\api\data
+apps/api/data/
 repomix-output*.xml
 repomix-output*.md
